@@ -19,4 +19,10 @@ class DefaultController extends Controller
 	{
 		$this->render('index');
 	}
+	
+	public function actionIndex2()
+	{
+		$this->render('index2');
+	}
+	
 }

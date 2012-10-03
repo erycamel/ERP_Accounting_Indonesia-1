@@ -26,13 +26,13 @@ class BootMenu extends BootBaseMenu
 	 */
 	public $type;
 	/**
-	 * @var boolean indicates whether to stack navigation items.
-	 */
-	public $stacked = false;
-	/**
-	 * @var string|array the scrollspy configuration.
+	 * @var string|array the scrollspy target or configuration.
 	 */
 	public $scrollspy;
+	/**
+	* @var boolean indicates whether the menu should appear vertically stacked.
+	*/
+	public $stacked = false;
 	/**
 	 * @var boolean indicates whether dropdowns should be dropups instead.
 	 */
@@ -80,6 +80,24 @@ class BootMenu extends BootBaseMenu
 	 */
 	public function getDividerCssClass()
 	{
-		return $this->type === self::TYPE_LIST ? 'divider' : 'divider-vertical';
+		return (isset($this->type) && $this->type === self::TYPE_LIST) ? 'divider' : 'divider-vertical';
+	}
+
+	/**
+	 * Returns the dropdown css class.
+	 * @return string the class name
+	 */
+	public function getDropdownCssClass()
+	{
+		return 'dropdown';
+	}
+
+	/**
+	 * Returns whether this is a vertical menu.
+	 * @return boolean the result
+	 */
+	public function isVertical()
+	{
+		return isset($this->type) && $this->type === self::TYPE_LIST;
 	}
 }

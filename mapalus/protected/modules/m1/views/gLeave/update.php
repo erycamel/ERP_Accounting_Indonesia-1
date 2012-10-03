@@ -10,8 +10,9 @@ $this->menu=array(
 		//array('label'=>'Manage gPerson','url'=>array('admin')),
 );
 
-$this->menu1=gLeave::getTopUpdated();
-$this->menu2=gLeave::getTopCreated();
+//$this->menu1=gLeave::getTopUpdated();
+//$this->menu2=gLeave::getTopCreated();
+$this->menu5=array('Leave');
 
 ?>
 
@@ -19,7 +20,7 @@ $this->menu2=gLeave::getTopCreated();
 	<h1>
 		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icon/user.png') ?>
 		Update:
-		<?php echo $model->person->vc_psnama; ?>
+		<?php echo $model->person->employee_name; ?>
 	</h1>
 </div>
 

@@ -2,7 +2,7 @@
 Yii::app()->clientScript->registerScriptFile(Yii::app()->getClientScript()->getCoreScriptUrl().'/jui/css/2jui-bootstrap/js/jquery-ui-1.8.16.custom.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->getClientScript()->getCoreScriptUrl().'/jui/css/2jui-bootstrap/jquery-ui.css');
 
-Yii::app()->clientScript->registerScript('datepicker1', "
+Yii::app()->clientScript->registerScript('datepicker3', "
 		$(function() {
 		$( \"#".CHtml::activeId($model,'birth_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',

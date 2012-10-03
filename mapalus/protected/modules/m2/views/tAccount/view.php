@@ -49,7 +49,7 @@ $this->menu3=tAccount::getTopRelated($model->account_name);
 
 <?php
 if ($model->haschild->mvalue == 2) {
-	$this->widget('bootstrap.widgets.BootTabbable', array(
+	$this->widget('bootstrap.widgets.BootTabs', array(
 			'type'=>'tabs', // 'tabs' or 'pills'
 			'tabs'=>array(
 					array('label'=>'Detail','content'=>$this->renderPartial("_tabDetail", array("model"=>$model,"modelAccount"=>$modelAccount), true),'active'=>true),
@@ -59,7 +59,7 @@ if ($model->haschild->mvalue == 2) {
 			),
 	));
 } else {
-	$this->widget('bootstrap.widgets.BootTabbable', array(
+	$this->widget('bootstrap.widgets.BootTabs', array(
 			'type'=>'tabs', // 'tabs' or 'pills'
 			'tabs'=>array(
 					//array('label'=>'Balance','content'=>$this->renderPartial("_tabBalance", array("model"=>$model,"modelAccount"=>$modelAccount,"pages"=>$pages), true)),

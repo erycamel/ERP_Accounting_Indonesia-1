@@ -7,16 +7,16 @@
 			'htmlOptions'=>array('class'=>'form-inline'),
 	)); ?>
 
-	<?php //echo $form->textField($model,'vc_psnama',array('class'=>'span3','maxlength'=>100)); ?>
+	<?php //echo $form->textField($model,'employee_name',array('class'=>'span3','maxlength'=>100)); ?>
 	<?php
 	$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 			'model'=>$model,
-			'attribute'=>'vc_psnama',
+			'attribute'=>'employee_name',
 			'source'=>$this->createUrl('/m1/gPerson/personAutoComplete'),
 			'options'=>array(
 					'minLength'=>'2',
 					'focus'=> 'js:function( event, ui ) {
-					$("#'.CHtml::activeId($model,'vc_psnama').'").val(ui.item.label);
+					$("#'.CHtml::activeId($model,'employee_name').'").val(ui.item.label);
 					return false;
 }',
 					'select'=> 'js:function( event, ui ) {

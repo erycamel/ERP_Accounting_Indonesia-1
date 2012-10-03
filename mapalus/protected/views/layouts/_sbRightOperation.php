@@ -1,4 +1,4 @@
-<?php if (!empty($this->menu5)): ?>	
+<?php if (!empty($this->menu5) && (!Yii::app()->user->isGuest)): ?>	
 
 <br/>
 <ul class="nav nav-list">

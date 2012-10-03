@@ -5,22 +5,22 @@ Yii::app()->getClientScript()->registerCoreScript('maskedinput');
 
 Yii::app()->clientScript->registerScript('datepicker', "
 		$(function() {
-		$( \"#".CHtml::activeId($model,'d_cuti')."\" ).datepicker({
+		$( \"#".CHtml::activeId($model,'input_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 });
-		$( \"#".CHtml::activeId($model,'d_dari')."\" ).datepicker({
+		$( \"#".CHtml::activeId($model,'start_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 });
-		$( \"#".CHtml::activeId($model,'d_sampai')."\" ).datepicker({
+		$( \"#".CHtml::activeId($model,'end_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 });
-		$( \"#".CHtml::activeId($model,'d_h_masuk')."\" ).datepicker({
+		$( \"#".CHtml::activeId($model,'work_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
 });
-		$( \"#".CHtml::activeId($model,'d_cuti')."\" ).mask('99-99-9999');
-		$( \"#".CHtml::activeId($model,'d_dari')."\" ).mask('99-99-9999');
-		$( \"#".CHtml::activeId($model,'d_sampai')."\" ).mask('99-99-9999');
-		$( \"#".CHtml::activeId($model,'d_h_masuk')."\" ).mask('99-99-9999');
+		$( \"#".CHtml::activeId($model,'input_date')."\" ).mask('99-99-9999');
+		$( \"#".CHtml::activeId($model,'start_date')."\" ).mask('99-99-9999');
+		$( \"#".CHtml::activeId($model,'end_date')."\" ).mask('99-99-9999');
+		$( \"#".CHtml::activeId($model,'work_date')."\" ).mask('99-99-9999');
 		$( \"#".CHtml::activeId($model,'parent_id')."\" ).autocomplete({
 			
 		'minLength':'2'
@@ -40,31 +40,31 @@ Yii::app()->clientScript->registerScript('datepicker', "
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model,'d_cuti'); ?>
+<?php echo $form->textFieldRow($model,'input_date'); ?>
 
-<?php echo $form->textFieldRow($model,'d_dari'); ?>
+<?php echo $form->textFieldRow($model,'start_date'); ?>
 
-<?php echo $form->textFieldRow($model,'d_sampai'); ?>
+<?php echo $form->textFieldRow($model,'end_date'); ?>
 
-<?php echo $form->textFieldRow($model,'n_jmlhari',array('class'=>'span1','hint'=>'Total days of leaving')); ?>
+<?php echo $form->textFieldRow($model,'number_of_day',array('class'=>'span1','hint'=>'Total days of leaving')); ?>
 
-<?php echo $form->textFieldRow($model,'d_h_masuk'); ?>
+<?php echo $form->textFieldRow($model,'work_date'); ?>
 
-<?php echo $form->textAreaRow($model,'r_cuti',array('class'=>'span5','rows'=>4)); ?>
+<?php echo $form->textAreaRow($model,'leave_reason',array('class'=>'span5','rows'=>4)); ?>
 
-<?php //echo $form->textFieldRow($model,'c_ganti',array('class'=>'span5','maxlength'=>10,'hint'=>'Your office mate as replacement during your leave')); ?>
+<?php //echo $form->textFieldRow($model,'replacement',array('class'=>'span5','maxlength'=>10,'hint'=>'Your office mate as replacement during your leave')); ?>
 <div class="control-group">
-	<?php echo $form->labelEx($model,'c_ganti',array('class'=>'control-label')); ?>
+	<?php echo $form->labelEx($model,'replacement',array('class'=>'control-label')); ?>
 	<div class="controls">
 		<?php
 		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 				'model'=>$model,
-				'attribute'=>'c_ganti',
+				'attribute'=>'replacement',
 				'source'=>$this->createUrl('/m1/gPerson/personAutoComplete'),
 				'options'=>array(
 						'minLength'=>'2',
 						//'focus'=> 'js:function( event, ui ) {
-						//	$("#'.CHtml::activeId($model,'c_ganti').'").val(ui.item.label);
+						//	$("#'.CHtml::activeId($model,'replacement').'").val(ui.item.label);
 						//	return false;
 						//}',
 				),

@@ -7,7 +7,6 @@
  * @property integer $id
  * @property integer $parent_id
  * @property string $start_date
- * @property string $end_date
  * @property integer $status_id
  * @property integer $company_id
  * @property integer $department_id
@@ -49,10 +48,10 @@ class gPersonCareer extends BaseModel
 				array('start_date, status_id, company_id, department_id, level_id, job_title', 'required'),
 				array('parent_id, status_id, company_id, department_id, level_id', 'numerical', 'integerOnly'=>true),
 				array('job_title, reason', 'length', 'max'=>100),
-				array('start_date, end_date', 'safe'),
+				array('start_date', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, parent_id, start_date, end_date, status_id, company_id, department_id, level_id, job_title, reason', 'safe', 'on'=>'search'),
+				array('id, parent_id, start_date, status_id, company_id, department_id, level_id, job_title, reason', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -82,10 +81,9 @@ class gPersonCareer extends BaseModel
 				'id' => 'ID',
 				'parent_id' => 'Parent',
 				'start_date' => 'Start Date',
-				'end_date' => 'End Date',
 				'status_id' => 'Status',
 				'company_id' => 'Company',
-				'department_id' => 'Hierarchy',
+				'department_id' => 'Department',
 				'level_id' => 'Level',
 				'job_title' => 'Job Title',
 				'reason' => 'Reason',

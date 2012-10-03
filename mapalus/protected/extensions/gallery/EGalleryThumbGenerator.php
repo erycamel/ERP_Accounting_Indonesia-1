@@ -62,11 +62,11 @@ class EGalleryThumbGenerator {
 	private function processQueue()
 	{
 		$_oldQueue= (file_exists($this->directory.DIRECTORY_SEPARATOR.'queue.txt') ?
-				@unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'queue.txt')) : false) ?
-				unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'queue.txt')) : array();
+					@unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'queue.txt')) : false) ?
+						unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'queue.txt')) : array();
 		$_newQueue = (file_exists($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt') ?
-				@unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt')) : false) ?
-				unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt')) : array();
+					@unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt')) : false) ?
+						unserialize(file_get_contents($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt')) : array();
 
 		// Now that we have the array, clean up the file for next time.
 		$this->deleteFile($this->directory.DIRECTORY_SEPARATOR.'needsThumbs.txt');
@@ -148,13 +148,13 @@ class EGalleryThumbGenerator {
 				case 'jpg':
 				case 'jpeg':
 					$source_img = imagecreatefromjpeg($pathToOriginal);
-					break;
+				break;
 				case 'png':
 					$source_img = imagecreatefrompng($pathToOriginal);
-					break;
+				break;
 				case 'gif':
 					$source_img = imagecreatefromgif($pathToOriginal);
-					break;
+				break;
 				default:
 					// Unsupported format
 					continue 2;

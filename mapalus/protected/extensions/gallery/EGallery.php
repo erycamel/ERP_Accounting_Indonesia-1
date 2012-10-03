@@ -108,17 +108,17 @@ class EGallery extends EGalleryBase {
 		}
 
 		$this->render('gallery',array(
-				'id'=>$this->id,
-				'name'=>$this->name,
-				'showNav'=>$this->showNav,
-				'pages'=>$pages,
-				'displayNumImages'=>$this->displayNumImages,
-				'imagesPerRow'=>$this->imagesPerRow,
-				'albumsPerRow'=>$this->albumsPerRow,
-				'details'=>parent::getDetails($this->_dir),
-				'albums'=>$this->_albums,
-				'images'=>$this->_images,
-		)
+			'id'=>$this->id,
+			'name'=>$this->name,
+			'showNav'=>$this->showNav,
+			'pages'=>$pages,
+			'displayNumImages'=>$this->displayNumImages,
+			'imagesPerRow'=>$this->imagesPerRow,
+			'albumsPerRow'=>$this->albumsPerRow,
+			'details'=>parent::getDetails($this->_dir),
+			'albums'=>$this->_albums,
+			'images'=>$this->_images,
+			)
 		) ;
 	}
 }

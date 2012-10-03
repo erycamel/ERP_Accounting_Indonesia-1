@@ -24,7 +24,7 @@ $this->menu2=uJournal::getTopCreated(2);
 
 <?php
 if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
-	$this->widget('bootstrap.widgets.BootTabbable', array(
+	$this->widget('bootstrap.widgets.BootTabs', array(
 			'type'=>'tabs', // 'tabs' or 'pills'
 			'tabs'=>array(
 					array('label'=>'Expense', 'content'=>$this->renderPartial("_tabCreateOut", array("model"=>$model), true),'active'=>true),
@@ -32,7 +32,7 @@ if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
 			),
 	));
 } elseif (isset($model->cb_receiver)) {
-	$this->widget('bootstrap.widgets.BootTabbable', array(
+	$this->widget('bootstrap.widgets.BootTabs', array(
 			'type'=>'tabs', // 'tabs' or 'pills'
 			'tabs'=>array(
 					array('label'=>'Expense', 'content'=>$this->renderPartial("_tabCreateOut", array("model"=>$model), true),'active'=>true),
@@ -40,7 +40,7 @@ if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
 	));
 
 } else {
-	$this->widget('bootstrap.widgets.BootTabbable', array(
+	$this->widget('bootstrap.widgets.BootTabs', array(
 			'type'=>'tabs', // 'tabs' or 'pills'
 			'tabs'=>array(
 					array('label'=>'Income', 'content'=>$this->renderPartial("_tabCreateIn", array("model"=>$model), true),'active'=>true),

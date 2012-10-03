@@ -300,17 +300,17 @@ abstract class BootInput extends CInputWidget
 		else
 			return '';
 	}
-
+	
 	/**
 	 * Returns the id that should be used for the specified attribute
 	 * @param string $attribute the attribute
-	 * @return string the id
+	 * @return string the id 
 	 */
-	protected function getAttributeId($attribute)
+	protected function getAttributeId($attribute) 
 	{
 		return isset($this->htmlOptions['id'])
-		? $this->htmlOptions['id']
-		: CHtml::getIdByName(CHtml::resolveName($this->model, $attribute));
+				? $this->htmlOptions['id']
+				: CHtml::getIdByName(CHtml::resolveName($this->model, $attribute));
 	}
 
 	/**

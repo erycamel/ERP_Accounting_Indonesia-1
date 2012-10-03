@@ -10,15 +10,11 @@
 
 <?php echo $form->textFieldRow($model,'school_name',array('class'=>'span3')); ?>
 
-<?php echo $form->textFieldRow($model,'city',array('class'=>'span3')); ?>
-
 <?php echo $form->textFieldRow($model,'interest',array('class'=>'span3')); ?>
 
+<?php echo $form->textFieldRow($model,'city',array('class'=>'span3')); ?>
+
 <?php echo $form->textFieldRow($model,'graduate',array('class'=>'span3')); ?>
-
-<?php echo $form->textFieldRow($model,'country',array('class'=>'span3')); ?>
-
-<?php echo $form->textFieldRow($model,'institution',array('class'=>'span3')); ?>
 
 <?php echo $form->textFieldRow($model,'ipk',array('class'=>'span3')); ?>
 

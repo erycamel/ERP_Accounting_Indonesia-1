@@ -10,7 +10,7 @@ $this->widget('createNew');
 <?php $this->widget('bootstrap.widgets.BootMenu', array(
 		'type'=>'list',
 		'items'=>array(
-				array('label'=>' Mail Box', 'count'=>Yii::app()->getModule("mailbox")->getNewMsgs(Yii::app()->user->id), 'icon'=>'list-alt','url'=>Yii::app()->createUrl('/mailbox')),
+				//array('label'=>' Mail Box', 'count'=>Yii::app()->getModule("mailbox")->getNewMsgs(Yii::app()->user->id), 'icon'=>'list-alt','url'=>Yii::app()->createUrl('/mailbox')),
 				array('label'=>'SMS', 'icon'=>'list-alt','url'=>'#'),
 				array('label'=>'Chat', 'icon'=>'list-alt','url'=>'#'),
 				array('label'=>'Click To Call', 'icon'=>'list-alt','url'=>'#'),

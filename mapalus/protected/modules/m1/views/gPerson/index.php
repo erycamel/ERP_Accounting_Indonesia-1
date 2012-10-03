@@ -17,7 +17,7 @@ $this->menu5=array('Person');
 ?>
 
 <div class="pull-right">
-	<?php $this->renderPartial('/gPerson/_search',array(
+	<?php $this->renderPartial('_search',array(
 			'model'=>$model,
 	)); ?>
 </div>
@@ -30,7 +30,10 @@ $this->menu5=array('Person');
 </div>
 
 
-<?php $this->widget('bootstrap.widgets.BootListView',array(
+<?php 
+	$this->widget('bootstrap.widgets.BootListView',array(
+	//$this->widget('ext.EColumnListView', array(
+		//'columns' => 3,
 		'dataProvider'=>$dataProvider,
 		'itemView'=>'/gPerson/_view',
 )); ?>

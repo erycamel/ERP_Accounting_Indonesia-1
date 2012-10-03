@@ -48,16 +48,6 @@ table {
   tbody + tbody {
     border-top: 2px solid @tableBorder;
   }
-
-  .success td {
-    background-color: @successBackground;
-  }
-  .error td {
-    background-color: @errorBackground;
-  }
-  .info td {
-    background-color: @infoBackground;
-  }
 }
 
 
@@ -143,7 +133,7 @@ table {
   colgroup + tbody tr:first-child td:last-child {
     -webkit-border-top-right-radius: 4px;
             border-top-right-radius: 4px;
-          -moz-border-right-topleft: 4px;
+         -moz-border-radius-topleft: 4px;
   }
 
 }
@@ -169,9 +159,11 @@ table {
 // ------------
 // Placed here since it has to come after the potential zebra striping
 .table-hover {
-  tbody tr:hover td,
-  tbody tr:hover th {
-    background-color: @tableBackgroundHover;
+  tbody {
+    tr:hover td,
+    tr:hover th {
+      background-color: @tableBackgroundHover;
+    }
   }
 }
 
@@ -188,7 +180,7 @@ table [class*=span],
 }
 
 // Change the column widths to account for td/th padding
-table {
+.table {
   .span1     { .tableColumns(1); }
   .span2     { .tableColumns(2); }
   .span3     { .tableColumns(3); }
@@ -213,4 +205,41 @@ table {
   .span22    { .tableColumns(22); }
   .span23    { .tableColumns(23); }
   .span24    { .tableColumns(24); }
+}
+
+
+
+// TABLE BACKGROUNDS
+// -----------------
+// Exact selectors below required to override .table-striped
+
+.table tbody tr {
+  &.success td {
+    background-color: @successBackground;
+  }
+  &.error td {
+    background-color: @errorBackground;
+  }
+  &.warning td {
+    background-color: @warningBackground;
+  }
+  &.info td {
+    background-color: @infoBackground;
+  }
+}
+
+// Hover states for .table-hover
+.table-hover tbody tr {
+  &.success:hover td {
+    background-color: darken(@successBackground, 5%);
+  }
+  &.error:hover td {
+    background-color: darken(@errorBackground, 5%);
+  }
+  &.warning:hover td {
+    background-color: darken(@warningBackground, 5%);
+  }
+  &.info:hover td {
+    background-color: darken(@infoBackground, 5%);
+  }
 }

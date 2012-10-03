@@ -73,10 +73,10 @@ class gPerson extends BaseModel
 				array('employee_name, birth_place, birth_date', 'required'),
 				array('sex_id, religion_id, userid, t_status, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly'=>true),
 				array('employee_code, address3, identity_address3, blood_id', 'length', 'max'=>10),
-				array('VALID_INFO, employee_name, email, email2', 'length', 'max'=>100),
+				array('employee_name, email, email2', 'length', 'max'=>100),
 				array('birth_place', 'length', 'max'=>20),
 				array('address1, identity_address1, c_pathfoto', 'length', 'max'=>255),
-				array('address2, identity_address2, home_phone, handphone, handphone2', 'length', 'max'=>50),
+				array('address2, identity_address2, home_phone, handphone, handphone2, account_number, account_name, bank_name', 'length', 'max'=>50),
 				array('pos_code, identity_pos_code', 'length', 'max'=>5),
 				array('identity_number', 'length', 'max'=>25),
 				array('birth_date, identity_valid', 'safe'),
@@ -96,8 +96,15 @@ class gPerson extends BaseModel
 		return array(
 				'religion' => array(self::BELONGS_TO, 'sParameter', array('religion_id'=>'code'),'condition'=>'type = \'cAgama\''),
 				'sex' => array(self::BELONGS_TO, 'sParameter', array('sex_id'=>'code'),'condition'=>'type = \'cKelamin\''),
-				'company' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id','order' => 'start_date DESC'),
-
+				'company' => 
+					array(self::HAS_ONE, 'gPersonCareer', 'parent_id',
+						'order' => 'company.start_date DESC',
+						'condition'=>'company.status_id <7',
+					),
+				'companyfirst' => array(self::HAS_ONE, 'gPersonCareer', 'parent_id','order' => 'companyfirst.start_date ASC','condition'=>'companyfirst.status_id =1'),
+				'status' => array(self::HAS_ONE, 'gPersonStatus', 'parent_id','order' => 'status.start_date DESC'),
+				'leave' => array(self::HAS_MANY, 'gLeave', 'parent_id'),
+				'leaveBalance' => array(self::HAS_ONE, 'gLeave', 'parent_id','order' => 'leaveBalance.end_date DESC','condition'=>'leaveBalance.approved_id <> 1'),
 		);
 	}
 
@@ -130,6 +137,9 @@ class gPerson extends BaseModel
 				'home_phone' => 'Home Phone',
 				'handphone' => 'Handphone',
 				'handphone2' => 'Handphone2',
+				'account_number' => 'Account Number',
+				'account_name' => 'Account Name',
+				'bank_name' => 'Bank Name',
 				'c_pathfoto' => 'C Pathfoto',
 				'userid' => 'Userid',
 				't_status' => 'T Status',
@@ -144,7 +154,7 @@ class gPerson extends BaseModel
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($id)
+	public function sameDepartment($id)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -152,112 +162,73 @@ class gPerson extends BaseModel
 		$criteria=new CDbCriteria;
 
 		$criteria->with=array('company');
-		$criteria->compare('company.department_id',$id);
-		$criteria->order='company.level_id';
+		$criteria->order='company.level_id, company.start_date ';
+		
+		$criteria1 = new CDbCriteria; //JOIN, JOIN CONTINUED, ROTATION
+		$criteria1->condition = '(select status_id from g_person_career s where s.parent_id = t.id AND (s.status_id <7 OR s.status_id =15) ORDER BY start_date DESC LIMIT 1) <7';
+		
+		$criteria2 = new CDbCriteria;
+		$criteria2->condition = '(select department_id from g_person_career s where s.parent_id = t.id AND (s.status_id <7 OR s.status_id =15) ORDER BY start_date DESC LIMIT 1) ='.$id;
+
+		$criteria3 = new CDbCriteria;  //8=RESIGN, 9=TERMINATION, 10=End Of Contract
+		$criteria3->condition = '(select status_id from g_person_status s where s.parent_id = t.id ORDER BY start_date DESC LIMIT 1) NOT IN(8,9,10)';
+
+		$criteria->mergeWith($criteria1);
+		$criteria->mergeWith($criteria2);
+		$criteria->mergeWith($criteria3);
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+				//'pagination'=>array(
+				//	'pageSize'=>20,
+				//),
+				'pagination'=>false,
 		));
 	}
 
-
-	public function listWaitingApproval()
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function sameLevel($id)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
 
-		$criteria->with=array('leave');
-		$criteria->together=true;
-		$criteria->compare('leave.approved_id',1);
-		$criteria->compare('leave.d_dari>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
+		$criteria->with=array('company');
+		$criteria->order='company.department_id ';
+		$criteria->limit=20;
+		
+		if (Yii::app()->user->name != "admin") {
+			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
+		} else {
+			$criteria->addInCondition('company.company_id',array(1100));
+		}
+		
+		$criteria1 = new CDbCriteria; //JOIN, JOIN CONTINUED, ROTATION
+		$criteria1->condition = '(select status_id from g_person_career s where s.parent_id = t.id AND (s.status_id <7 OR s.status_id =15) ORDER BY start_date DESC LIMIT 1) <7';
+		
+		$criteria2 = new CDbCriteria;
+		$criteria2->condition = '(select level_id from g_person_career s where s.parent_id = t.id AND (s.status_id <7 OR s.status_id =15) ORDER BY start_date DESC LIMIT 1) ='.$id;
 
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				//'pagination'=>false,
-		));
-	}
+		$criteria3 = new CDbCriteria;  //8=RESIGN, 9=TERMINATION, 10=End Of Contract
+		$criteria3->condition = '(select status_id from g_person_status s where s.parent_id = t.id ORDER BY start_date DESC LIMIT 1) NOT IN(8,9,10)';
 
-	public function onPending()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->with=array('leave');
-		$criteria->together=true;
-		$criteria->compare('leave.approved_id',4);
-		//$criteria->compare('leave.d_dari>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
-
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				//'pagination'=>false,
-		));
-	}
-
-	public function onLeave()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->with=array('leave');
-		$criteria->compare('leave.approved_id',2);
-		$criteria->compare('leave.d_dari>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
-
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				//'pagination'=>false,
-		));
-	}
-
-	public function recentLeave()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->with=array('leave');
-		$criteria->compare('leave.approved_id',2);
-		$criteria->order='leave.d_sampai DESC';
+		$criteria->mergeWith($criteria1);
+		$criteria->mergeWith($criteria2);
+		$criteria->mergeWith($criteria3);
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 				'pagination'=>array(
-						'pageSize'=>50,
+					'pageSize'=>20,
 				),
+				//'pagination'=>false,
 		));
 	}
-	/*
-	 public static function ListWaitingApproval()
-	 {
-	// Warning: Please modify the following code to remove attributes that
-	// should not be searched.
-
-	$criteria=new CDbCriteria;
-
-	//$criteria->with=array('leave');
-	//$criteria->together=true;
-	//$criteria->compare('leave.approved_id',1);
-	//$criteria->compare('leave.d_dari>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
-
-	$models=self::model()->findAll($criteria);
-
-	$returnarray = array();
-
-	foreach ($models as $model) {
-	//$_nama= (strlen($model->employee_name) >15) ? substr($model->employee_name,0,15)."..." : $model->employee_name;
-	//$_nama= $model->employee_name;
-	$returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon'=>'list-alt', 'url' => array('/m1/gLeave/view','id'=>$model->id));
-	}
-
-	return $returnarray;
-	}
-	*/
+	
 
 	public static function getTopCreated() {
 
@@ -266,7 +237,7 @@ class gPerson extends BaseModel
 		$returnarray = array();
 
 		foreach ($models as $model) {
-			$_nama= (strlen($model->employee_name) >15) ? substr($model->employee_name,0,15)."..." : $model->employee_name;
+			$_nama= (strlen($model->employee_name) >12) ? substr($model->employee_name,0,12)."..." : $model->employee_name;
 			$returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon'=>'list-alt', 'url' => array('/m1/gPerson/view','id'=>$model->id));
 		}
 
@@ -280,7 +251,7 @@ class gPerson extends BaseModel
 		$returnarray = array();
 
 		foreach ($models as $model) {
-			$_nama= (strlen($model->employee_name) >15) ? substr($model->employee_name,0,15)."..." : $model->employee_name;
+			$_nama= (strlen($model->employee_name) >12) ? substr($model->employee_name,0,12)."..." : $model->employee_name;
 			$returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon'=>'list-alt', 'url' => array('/m1/gPerson/view','id'=>$model->id));
 		}
 
@@ -315,5 +286,241 @@ class gPerson extends BaseModel
 
 		return $returnarray;
 	}
+	
+	public function countJoinDate()
+	{
+		if (isset($this->companyfirst)) {
+			$diff = abs(strtotime($this->companyfirst->start_date) - time());
+			$years = floor($diff / (365*60*60*24));
+			$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+			$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
 
+			return $years." years, ". $months ." months, ".$days ." days";
+		}	
+	}
+
+	public function countContract()
+	{
+		if (isset($this->status->end_date)) {
+			$diff = abs(strtotime($this->mStatusEndDate()) - time());
+			$years = floor($diff / (365*60*60*24));
+			$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+			$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+			if (strtotime($this->mStatusEndDate()) > time()) {
+				if ($months ==0) {
+					return $days ." days left";
+				} else	
+					return $months ." months, ".$days ." days left";
+			} else {
+				if ($months ==0) {
+					return $days ." days expired";
+				} else	
+					return $months ." months, ".$days ." days expired";
+			}
+		}	
+	}
+	
+	public function countBirthdate()
+	{
+		$diff = abs(strtotime(date('y').'-'.date('m',strtotime($this->birth_date)).'-'.date('d',strtotime($this->birth_date))) - time());
+		$years = floor($diff / (365*60*60*24));
+		$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+		$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+		if ($days == 0) {
+			$_value="Today";
+		} elseif ($days == 1) {
+			$_value="Tomorrow";
+		} else
+			$_value=$days." Days to go";
+		
+		return $_value;
+	}
+
+	public function countAge() //round up and round down
+	{
+		$diff = abs(strtotime($this->birth_date) - time());
+		$years = round($diff / (365*60*60*24));
+
+		return $years." years old";
+	}
+	
+	public function countAgeRoundDown() //round down, exact_age
+	{
+		$diff = abs(strtotime($this->birth_date) - time());
+		$years = floor($diff / (365*60*60*24));
+
+		return $years;
+	}
+
+	public function compSex(){
+		$_item=array();
+		$count1=gPerson::model()->count('sex_id =1');
+		$_item[]=(int)$count1;
+		$count2=gPerson::model()->count('sex_id =2');
+		$_item[]=(int)$count2;
+		
+		return $_item;
+	
+	}
+	
+	public function compAge(){
+		$_item=array();
+		$count1=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) <=26 ');
+		$_item[]=(int)$count1;
+		$count2=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 26 AND 30');
+		$_item[]=(int)$count2;
+		$count3=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 31 AND 35');
+		$_item[]=(int)$count3;
+		$count4=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 36 AND 40');
+		$_item[]=(int)$count4;
+		$count5=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 41 AND 45');
+		$_item[]=(int)$count5;
+		$count6=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 46 AND 50');
+		$_item[]=(int)$count6;
+		$count7=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) >50');
+		$_item[]=(int)$count7;
+		
+		return $_item;
+	
+	}
+	
+	public function employeeIn()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('company');
+		$criteria->compare('year(company.start_date)',date('Y'));
+		$criteria->addInCondition('company.status_id',array(1,2));
+		$criteria->order='company.start_date DESC';
+
+		if (Yii::app()->user->name != "admin") {
+			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
+		} else {
+			$criteria->addInCondition('company.company_id',array(1100));
+		}
+		
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				'pagination'=>false,
+		));
+	}
+
+	public function employeeOut()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('company','status');
+		$criteria->compare('year(status.start_date)',date('Y'));
+		$criteria->compare('status.status_id',8);
+		$criteria->order='status.start_date DESC';
+
+		if (Yii::app()->user->name != "admin") {
+			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
+		} else {
+			$criteria->addInCondition('company.company_id',array(1100));
+		}
+		
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				'pagination'=>false,
+		));
+	}
+	
+	public function getPhotoPath() {
+		if ($this->c_pathfoto != null) {
+			$path=CHtml::image(Yii::app()->request->baseUrl . "/shareimages/hr/employee/" .$this->c_pathfoto, CHtml::encode($this->employee_name), array("width"=>"100%",'id'=>'photo'));
+		} else {
+			$path=CHtml::image(Yii::app()->request->baseUrl . "/shareimages/nophoto.jpg", CHtml::encode($this->employee_name), array("width"=>"100%",'id'=>'photo'));
+		}
+		return $path;
+
+	}
+	
+	public function mCompany() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->company->name;
+		return $_value;
+	}
+
+	public function mJobTitle() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->job_title;
+		return $_value;
+	}
+
+	public function mLevel() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->level->name;
+		return $_value;
+	}
+
+	public function mLevelId() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->level_id;
+		return $_value;
+	}
+
+	public function mDepartment() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->department->name;
+		return $_value;
+	}
+
+	public function mDepartmentId() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonCareer::model()->find($criteria)->department_id;
+		return $_value;
+	}
+
+	public function mStatus() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonStatus::model()->find($criteria)->status->name;
+		return $_value;
+	}
+
+	public function mStatusEndDate() {
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id',$this->id);
+		$criteria->order='start_date DESC';
+		$_value=gPersonStatus::model()->find($criteria)->end_date;
+		return $_value;
+	}
+	
+	public function scopes()
+    {
+        return array(
+            //'noResign'=>array(
+            //    'condition'=>'status=1',
+            //),
+            //'noResign'=>array(
+             //  'with'=>array('status'),
+                //'limit'=>5,
+            //),
+        );
+    }	
+	
 }

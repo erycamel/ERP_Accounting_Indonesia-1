@@ -6,125 +6,38 @@
 
 <div class="row-fluid" style="min-height:435px">
 	<div class="span5">
-		<?php /*
-			$this->widget('bootstrap.widgets.BootCarousel', array(
-				'items'=>array(
-					array('image'=>Yii::app()->baseUrl.'/shareimages/photo/0012.jpg', 
-						'caption'=>Yii::app()->name,
-						'label'=>Yii::app()->createUrl(Yii::app()->name,array('test')),
-						'url'=>Yii::app()->createUrl('/sCompanyNews'),
-						'imageOptions'=>array(
-							'width'=>'100%',
-						),
-					),
-					array('image'=>Yii::app()->baseUrl.'/shareimages/photo/0016.jpg', 
-						'caption'=>'Second Menu label',
-						'imageOptions'=>array(
-							'width'=>'100%',
-						),
-					),
-					array('image'=>Yii::app()->baseUrl.'/shareimages/photo/0028.jpg', 
-						'caption'=>'Third Menu label',
-						'imageOptions'=>array(
-							'width'=>'100%',
-						),
-					),
-				),
-				//'options'=>array(
-				//	'interval'=>5000,
-				//),
-			)); 
-		*/
-		
-		$this->widget('ext.xflexslider.XFlexSlider',array(
-			'slides'=>array(
-				//use content
-				'slide1' => array(
-					'id'=>'slide1',
-					'caption'=>'Landscape Sample',
-					'content'=> CHtml::link(CHtml::image(Yii::app()->baseUrl.'/shareimages/photo/peter.jpg'),
-								Yii::app()->createUrl('/sGallery/list',array('dir'=>'peter'))),
-				),
-				'slide2' => array(
-					'id'=>'slide2',
-					'caption'=>'Buka Puasa 1',
-					'content'=> CHtml::link(CHtml::image(Yii::app()->baseUrl.'/shareimages/photo/photogal.jpg'),
-								Yii::app()->createUrl('/sGallery/list',array('dir'=>'photogal'))),
-				),
-				'slide3' => array(
-					'id'=>'slide3',
-					'caption'=>'Buka Puasa 2',
-					'content'=> CHtml::link(CHtml::image(Yii::app()->baseUrl.'/shareimages/photo/photogal2.jpg'),
-								Yii::app()->createUrl('/sGallery/list',array('dir'=>'photogal2'))),
-				),
-				'slide3' => array(
-					'id'=>'slide4',
-					'caption'=>'Kick Off Kompas',
-					'content'=> CHtml::link(CHtml::image(Yii::app()->baseUrl.'/shareimages/photo/photogal3.jpg'),
-								Yii::app()->createUrl('/sGallery/list',array('dir'=>'photogal3'))),
-				),
-				//use view
-				//'slide2'=>array(
-				//	'caption'=>'This image is wrapped in a link!',
-				//	'view'=>'_slide2',
-				//),
-			),
-		 
-			'flexsliderOptions'=>array(
-				//'animation' => "'slide'",
-				//'slideDirection' => 'vertical',
-				'mousewheel' => true,
-				'slideshowSpeed' => 3000,
-				'animationDuration' => 300,
-			),
-		));		
-			
-		?>
-		
-
+		<?php $this->renderPartial("_photoSlider", array()) ?>
 	</div>
-
 	<div class="span7">
-		<h2>Company News</h2>
-		<?php
-		$this->widget('zii.widgets.CListView', array(
-			'dataProvider'=>$dataProvider,
-			'itemView'=>'_viewCompanyNews',
-			'template'=>"{items}",
-		));
-
-		?>		
+		<?php $this->renderPartial("_companyNews", array('dataProvider'=>$dataProvider)) ?>
 	</div>
-
 </div>
 
+<p>
+	<?php
+		//$this->widget('ext.LanguagePicker.ELanguagePicker', array(
+		//	'title'=>null
+		//));
+	?>
+</p>
 
-	<p>
-		<?php
-			//$this->widget('ext.LanguagePicker.ELanguagePicker', array(
-			//	'title'=>null
-			//));
-		?>
-	</p>
+<div class="alert alert-info">
+	<h4 class="alert-heading">Welcome!!</h4>
+	<?php echo Yii::t('flogin',"Welcome to ").Yii::app()->name.Yii::t('flogin'," - HR and ACCOUNTING Application.</b>. This is a brand new ERP Accounting that exclusively designed for this company.... Relax, and enjoying the application") ?>
+</div>
 
-	<div class="alert alert-info">
-		<h4 class="alert-heading">Welcome!!</h4>
-		<?php echo Yii::t('flogin',"Welcome to ").Yii::app()->name.Yii::t('flogin'," - HR and ACCOUNTING Application.</b>. This is a brand new ERP Accounting that exclusively designed for this company.... Relax, and enjoying the application") ?>
-	</div>
-
-	<br/>
+<br/>
 	
-
 <div class="row-fluid">
 	<div class="span5">
 		<?php $this->renderPartial("_tabLogin", array("model"=>$model)) ?>
 	</div>
 	<div class="span7">
-		<?php $this->widget('bootstrap.widgets.BootTabbable', array(
+		<?php $this->widget('bootstrap.widgets.BootTabs', array(
 				'type'=>'tabs', // 'tabs' or 'pills'
 				'tabs'=>array(
 						array('label'=>'Public Documents', 'content'=>$this->renderPartial("_tabPublic",array(),true),'active'=>true),
-						array('label'=>'Features', 'content'=>$this->renderPartial("_tabFeatures",array("model"=>$model),true)),
+						array('label'=>'Features', 'id'=>'features', 'content'=>$this->renderPartial("_tabFeatures",array("model"=>$model),true)),
 				),
 				'htmlOptions'=>array(
 					'style'=>'min-height:300px',
@@ -165,3 +78,5 @@
 		?>
 </div>
 </div>
+
+<?php //Yii::app()->cache->flush() ?>

@@ -35,7 +35,7 @@ class BootActiveForm extends CActiveForm
 	 */
 	public $input;
 	/**
-	 * @var boolean flag that indicates if the errors should be displayed as blocks.
+	 * @var boolean indicates whether to display errors as blocks.
 	 */
 	public $inlineErrors;
 
@@ -330,9 +330,9 @@ class BootActiveForm extends CActiveForm
 			$option = CHtml::$method($name, $checked, $htmlOptions);
 			$label = CHtml::label($label, $htmlOptions['id'], $labelOptions);
 			$items[] = strtr($template, array(
-					'{labelCssClass}' => $labelCssClass,
-					'{input}' => $option,
-					'{label}' => $label,
+				'{labelCssClass}' => $labelCssClass,
+				'{input}' => $option,
+				'{label}' => $label,
 			));
 		}
 
@@ -389,26 +389,26 @@ class BootActiveForm extends CActiveForm
 			$htmlOptions['id'] = $inputID.'_em_';
 
 		$option = array(
-				'id'=>$id,
-				'inputID'=>$inputID,
-				'errorID'=>$htmlOptions['id'],
-				'model'=>get_class($model),
-				'name'=>CHtml::resolveName($model, $attribute),
-				'enableAjaxValidation'=>$enableAjaxValidation,
-				'inputContainer'=>'div.control-group', // Bootstrap requires this
+			'id'=>$id,
+			'inputID'=>$inputID,
+			'errorID'=>$htmlOptions['id'],
+			'model'=>get_class($model),
+			'name'=>CHtml::resolveName($model, $attribute),
+			'enableAjaxValidation'=>$enableAjaxValidation,
+			'inputContainer'=>'div.control-group', // Bootstrap requires this
 		);
 
 		$optionNames = array(
-				'validationDelay',
-				'validateOnChange',
-				'validateOnType',
-				'hideErrorMessage',
-				'inputContainer',
-				'errorCssClass',
-				'successCssClass',
-				'validatingCssClass',
-				'beforeValidateAttribute',
-				'afterValidateAttribute',
+			'validationDelay',
+			'validateOnChange',
+			'validateOnType',
+			'hideErrorMessage',
+			'inputContainer',
+			'errorCssClass',
+			'successCssClass',
+			'validatingCssClass',
+			'beforeValidateAttribute',
+			'afterValidateAttribute',
 		);
 
 		foreach ($optionNames as $name)
@@ -435,7 +435,7 @@ class BootActiveForm extends CActiveForm
 			{
 				if ($validator->enableClientValidation)
 					if (($js = $validator->clientValidateAttribute($model, $attributeName)) != '')
-					$validators[] = $js;
+						$validators[] = $js;
 			}
 
 			if ($validators !== array())
@@ -488,12 +488,12 @@ class BootActiveForm extends CActiveForm
 	{
 		ob_start();
 		Yii::app()->controller->widget($this->getInputClassName(), array(
-				'type'=>$type,
-				'form'=>$this,
-				'model'=>$model,
-				'attribute'=>$attribute,
-				'data'=>$data,
-				'htmlOptions'=>$htmlOptions,
+			'type'=>$type,
+			'form'=>$this,
+			'model'=>$model,
+			'attribute'=>$attribute,
+			'data'=>$data,
+			'htmlOptions'=>$htmlOptions,
 		));
 		return ob_get_clean();
 	}

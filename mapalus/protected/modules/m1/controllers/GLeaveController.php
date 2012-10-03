@@ -72,12 +72,11 @@ class GLeaveController extends Controller
 		{
 			$model->attributes=$_POST['gLeave'];
 			if($model->save())
-				$this->redirect(array('/m1/gLeave'));
+				//$this->redirect(array('/m1/gLeave'));
+				EQuickDlgs::checkDialogJsScript();
 		}
 
-		$this->render('update',array(
-				'model'=>$model,
-		));
+		EQuickDlgs::render('_formTEMPORARY',array('model'=>$model));
 	}
 
 	/**
@@ -100,7 +99,7 @@ class GLeaveController extends Controller
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
-	public function actionRecentLeave()
+	public function actionOnRecent()
 	{
 		$model=new gPerson('search');
 		$model->unsetAttributes();
@@ -111,13 +110,13 @@ class GLeaveController extends Controller
 		if(isset($_GET['gPerson'])) {
 			$model->attributes=$_GET['gPerson'];
 
-			$criteria1->compare('vc_psnama',$_GET['gPerson']['vc_psnama'],true,'OR');
+			$criteria1->compare('employee_name',$_GET['gPerson']['employee_name'],true,'OR');
 			//$criteria1->compare('t_domalamat',$_GET['gPerson']['t_domalamat'],true,'OR');
 		}
 
 		$criteria->mergeWith($criteria1);
 
-		$this->render('recentLeave',array(
+		$this->render('OnRecent',array(
 				'model'=>$model,
 		));
 	}
@@ -133,7 +132,7 @@ class GLeaveController extends Controller
 		if(isset($_GET['gPerson'])) {
 			$model->attributes=$_GET['gPerson'];
 
-			$criteria1->compare('vc_psnama',$_GET['gPerson']['vc_psnama'],true,'OR');
+			$criteria1->compare('employee_name',$_GET['gPerson']['employee_name'],true,'OR');
 			//$criteria1->compare('t_domalamat',$_GET['gPerson']['t_domalamat'],true,'OR');
 		}
 
@@ -155,13 +154,35 @@ class GLeaveController extends Controller
 		if(isset($_GET['gPerson'])) {
 			$model->attributes=$_GET['gPerson'];
 
-			$criteria1->compare('vc_psnama',$_GET['gPerson']['vc_psnama'],true,'OR');
+			$criteria1->compare('employee_name',$_GET['gPerson']['employee_name'],true,'OR');
 			//$criteria1->compare('t_domalamat',$_GET['gPerson']['t_domalamat'],true,'OR');
 		}
 
 		$criteria->mergeWith($criteria1);
 
 		$this->render('onPending',array(
+				'model'=>$model,
+		));
+	}
+
+	public function actionOnApproved()
+	{
+		$model=new gPerson('search');
+		$model->unsetAttributes();
+
+		$criteria=new CDbCriteria;
+		$criteria1=new CDbCriteria;
+
+		if(isset($_GET['gPerson'])) {
+			$model->attributes=$_GET['gPerson'];
+
+			$criteria1->compare('employee_name',$_GET['gPerson']['employee_name'],true,'OR');
+			//$criteria1->compare('t_domalamat',$_GET['gPerson']['t_domalamat'],true,'OR');
+		}
+
+		$criteria->mergeWith($criteria1);
+
+		$this->render('OnApproved',array(
 				'model'=>$model,
 		));
 	}
@@ -195,7 +216,7 @@ class GLeaveController extends Controller
 		if(isset($_GET['gPerson'])) {
 			$model->attributes=$_GET['gPerson'];
 
-			$criteria1->compare('vc_psnama',$_GET['gPerson']['vc_psnama'],true,'OR');
+			$criteria1->compare('employee_name',$_GET['gPerson']['employee_name'],true,'OR');
 			//$criteria1->compare('t_domalamat',$_GET['gPerson']['t_domalamat'],true,'OR');
 		}
 
@@ -212,34 +233,19 @@ class GLeaveController extends Controller
 		));
 	}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new gLeave('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['gLeave']))
-			$model->attributes=$_GET['gLeave'];
-
-		$this->render('admin',array(
-				'model'=>$model,
-		));
-	}
-
 	public function actionApproved($id,$pid)
 	{
 		$model=$this->loadModelLeave($id);
 
 		$modelBalance=gPerson::model()->with('leaveBalance')->findByPk($pid);
-		$newmasal=$modelBalance->leaveBalance->c_masal;
-		$newpribadi=$modelBalance->leaveBalance->c_pribadi - $model->n_jmlhari;
-		$newbalance=$modelBalance->leaveBalance->n_sisacuti - $model->n_jmlhari;
+		$newmasal=$modelBalance->leaveBalance->mass_leave;
+		$newpribadi=$modelBalance->leaveBalance->person_leave - $model->number_of_day;
+		$newbalance=$modelBalance->leaveBalance->balance - $model->number_of_day;
 
 		gLeave::model()->updateByPk((int)$id,array(
-				'c_masal'=>$newmasal,
-				'c_pribadi'=>$newpribadi,
-				'n_sisacuti'=>$newbalance,
+				'mass_leave'=>$newmasal,
+				'person_leave'=>$newpribadi,
+				'balance'=>$newbalance,
 				'approved_id'=>2,
 		));
 	}

@@ -9,8 +9,9 @@ $this->menu=array(
 );
 
 
-$this->menu1=gLeave::getTopUpdated();
-$this->menu2=gLeave::getTopCreated();
+//$this->menu1=gLeave::getTopUpdated();
+//$this->menu2=gLeave::getTopCreated();
+$this->menu5=array('Leave');
 
 ?>
 
@@ -33,32 +34,37 @@ $this->widget('bootstrap.widgets.BootMenu', array(
 		'stacked'=>false, // whether this is a stacked menu
 		'items'=>array(
 				array('label'=>'Waiting for Approval','url'=>Yii::app()->createUrl('/m1/gLeave')),
+				array('label'=>'Approved Leave','url'=>Yii::app()->createUrl('/m1/gLeave/onApproved')),
 				array('label'=>'Pending State','url'=>Yii::app()->createUrl('/m1/gLeave/onPending')),
 				array('label'=>'Employee On Leave','url'=>Yii::app()->createUrl('/m1/gLeave/onLeave'),'active'=>true),
-				array('label'=>'Recent Leave','url'=>Yii::app()->createUrl('/m1/gLeave/recentLeave')),
-
+				array('label'=>'Recent Leave','url'=>Yii::app()->createUrl('/m1/gLeave/onRecent')),
 		),
 ));
 ?>
 
 <?php $this->widget('bootstrap.widgets.BootGridView',array(
 		'id'=>'g-person-grid',
-		'dataProvider'=>gPerson::model()->onLeave(),
+		'dataProvider'=>gLeave::model()->onLeave(),
 		//'filter'=>$model,
+		'template'=>'{items}{pager}',
 		'columns'=>array(
 				array(
 						'header'=>'Name',
 						'type'=>'raw',
-						'value'=>'CHtml::link($data->vc_psnama,Yii::app()->createUrl("/m1/gLeave/view",array("id"=>$data->id)))',
+						'value'=>'CHtml::link($data->person->employee_name,Yii::app()->createUrl("/m1/gLeave/view",array("id"=>$data->parent_id)))',
 				),
-				'position.unit.name',
-				'position.c_departkr',
+				//array(
+				//		'header'=>'Unit',
+				//		'value'=>'isset($data->person->company) ? $data->person->company->company->name: ""',
+				//),
+				'person.company.department.name',
+				'start_date',
+				'end_date',
+				'number_of_day',
+				'balance',
 				array(
 						'header'=>'Status',
-						'value'=>'$data->leave->approved->name',
+						'value'=>'$data->approved->name',
 				),
-				'leave.d_dari',
-				'leave.d_sampai',
-				'leave.n_jmlhari',
 		),
 )); ?>

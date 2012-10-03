@@ -73,14 +73,19 @@ return array(
 		),
 		// application components
 		'components'=>array(
-				//'widgetFactory'=>array(
-				//	'widgets'=>array(
-				//'CJuiAutoComplete'=>array(
-				//	'options'=>array(
-				//		'minLength'=>'3',
-				//	),
-				//),
-				//	),
+				//'widgetFactory'=>array(  
+					//'widgets'=>array(
+						//'CJuiAutoComplete'=>array(
+						//	'options'=>array(
+						//		'minLength'=>'3',
+						//	),
+						//),
+						//'CJuiDatePicker'=>array(
+						//	'htmlOptions'=>array(
+						//		'style'=>'min-height: 30px;',
+						//	),
+						//),
+					//),
 				//),
 				//'clientScript' => array(
 				// 'class' => 'ext.ClientScriptPacker.ClientScriptPacker',

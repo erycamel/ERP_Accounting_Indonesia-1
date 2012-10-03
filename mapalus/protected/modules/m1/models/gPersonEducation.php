@@ -12,7 +12,6 @@
  * @property string $interest
  * @property string $graduate
  * @property string $country
- * @property string $institution
  * @property string $ipk
  * @property string $category_id
  */
@@ -44,15 +43,15 @@ class gPersonEducation extends BaseModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('parent_id', 'numerical', 'integerOnly'=>true),
-				array('level_id, city, interest, country, category_id', 'length', 'max'=>10),
+				array('school_name, interest, ', 'required'),
+				array('parent_id, level_id, category_id', 'numerical', 'integerOnly'=>true),
+				array('city, interest, country', 'length', 'max'=>25),
 				array('school_name', 'length', 'max'=>50),
 				array('graduate', 'length', 'max'=>4),
-				array('institution', 'length', 'max'=>255),
 				array('ipk', 'length', 'max'=>5),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, parent_id, level_id, school_name, city, interest, graduate, country, institution, ipk, category_id', 'safe', 'on'=>'search'),
+				array('id, parent_id, level_id, school_name, city, interest, graduate, country, ipk, category_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,12 +76,11 @@ class gPersonEducation extends BaseModel
 				'id' => 'ID',
 				'parent_id' => 'Parent',
 				'level_id' => 'Level',
-				'school_name' => 'School Name',
-				'city' => 'City',
-				'interest' => 'Interest',
+				'school_name' => 'Institute Name',
+				'city' => 'City / Country',
+				'interest' => 'Major',
 				'graduate' => 'Graduation Year',
 				'country' => 'Country',
-				'institution' => 'Institute',
 				'ipk' => 'IPK',
 				'category_id' => 'Category',
 		);
@@ -100,6 +98,7 @@ class gPersonEducation extends BaseModel
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
+		$criteria->order='level_id DESC';
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,

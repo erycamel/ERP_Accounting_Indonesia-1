@@ -43,7 +43,10 @@ class MenuController extends Controller
 
 		*/
 
-		$model=$this->newNotification();
+		if (!is_dir(Yii::getPathOfAlias('webroot.sharedocs.personalfolder') . '/'.Yii::app()->user->name))
+			mkdir(Yii::getPathOfAlias('webroot.sharedocs.personalfolder') . '/'.Yii::app()->user->name);
+
+			$model=$this->newNotification();
 		$model3=$this->newNotification3();
 
 		$modeltask=$this->newTask();

@@ -4,21 +4,13 @@
 		//'filter'=>$model,
 		'template'=>'{items}',
 		'columns'=>array(
-				'cdate',
+				'start_date',
+				'end_date',
 				array(
 						'header'=>'Status',
 						'value'=>'$data->status->name',
 				),
-				array(
-						'header'=>'Valid',
-						'value'=>'$data->valid->name',
-				),
 				'remark',
-				//array(
-				//	'class'=>'BootButtonColumn',
-				//	'template'=>'{delete}',
-				//	'deleteButtonUrl'=>'Yii::app()->createUrl("m1/gPerson/deleteStatus",array("id"=>$data->id))',
-				//),
 				array(
 						'class'=>'EJuiDlgsColumn',
 						'template'=>'{update}{delete}',
@@ -29,15 +21,10 @@
 								'actionParams' => array('id'=>'$data->id'),
 								'dialogTitle' => 'Update Status',
 								'dialogWidth' => 512, //override the value from the dialog config
-								'dialogHeight' => 600,
+								'dialogHeight' => 530
 						),
 				),
 		),
 )); ?>
 
 
-<div class="page-header">
-	<h3>New Status</h3>
-</div>
-
-<?php echo $this->renderPartial('_formStatus',array('model'=>$modelStatus)); ?>

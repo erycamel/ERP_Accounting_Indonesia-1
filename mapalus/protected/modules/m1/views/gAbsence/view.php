@@ -50,7 +50,7 @@ $this->menu5=array('Person');
 </div>
 
 <?php
-$this->widget('bootstrap.widgets.BootTabbable', array(
+$this->widget('bootstrap.widgets.BootTabs', array(
 		'type'=>'tabs', // 'tabs' or 'pills'
 		'tabs' => array(
 				//array('label'=>'Absence','content' =>$this->renderPartial("_tabAbsence", array("model"=>$model,"modelAbsence"=>$modelAbsence,"month"=>$month), true),),

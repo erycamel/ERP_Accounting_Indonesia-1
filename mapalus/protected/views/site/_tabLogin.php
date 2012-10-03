@@ -1,12 +1,12 @@
 <div style="border:1px solid #DDD; padding: 15px">
 		<?php $form=$this->beginWidget('BootActiveForm', array(
 				'id'=>'login-form',
-				'type'=>'horizontal',
+				//'type'=>'horizontal',
 				'enableAjaxValidation'=>true,
 		)); ?>
 
-	<?php echo $form->textFieldRow($model,'username',array('class'=>'span2')); ?>
-		<?php echo $form->passwordFieldRow($model,'password',array('class'=>'span2')); ?>
+		<?php echo $form->textFieldRow($model,'username',array('size'=>'25')); ?>
+		<?php echo $form->passwordFieldRow($model,'password',array('size'=>'25')); ?>
 		<?php echo $form->checkBoxRow($model,'rememberMe'); ?>
 
 		<div class="form-actions">

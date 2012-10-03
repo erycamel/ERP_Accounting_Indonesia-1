@@ -37,7 +37,7 @@ $this->menu=array(
 </div>
 
 <?php
-$this->widget('bootstrap.widgets.BootTabbable', array(
+$this->widget('bootstrap.widgets.BootTabs', array(
 		'type'=>'tabs', // 'tabs' or 'pills'
 		'tabs'=>array(
 				array('label'=>'Detail','content'=>$this->renderPartial("_tabDetail", array("model"=>$model), true),'active'=>true),

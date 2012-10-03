@@ -6,38 +6,26 @@
  * The followings are the available columns in table 'g_leave':
  * @property integer $id
  * @property integer $parent_id
- * @property string $n_cuti
- * @property string $d_cuti
- * @property string $c_hriskd
- * @property string $d_dari
- * @property string $d_sampai
- * @property integer $n_jmlhari
- * @property string $c_h_masuk
- * @property string $d_h_masuk
- * @property string $r_cuti
- * @property integer $n_cutiii
- * @property integer $c_masal
- * @property integer $c_pribadi
- * @property integer $n_sisacuti
- * @property string $c_ganti
- * @property string $c_ajukan
- * @property string $c_ketahui
- * @property string $c_setuju
- * @property string $d_ajukan
- * @property string $d_ketahui
- * @property string $d_setuju
- * @property string $userid
- * @property string $tglmodify
- * @property string $pt_kodept
- * @property string $pt_kodeproyek
- * @property string $t_keterangan
- * @property string $Id_OLD
- * @property integer $tahunke
+ * @property string $input_date
+ * @property integer $year_leave
+ * @property string $start_date
+ * @property string $end_date
+ * @property integer $number_of_day
+ * @property string $work_date
+ * @property string $leave_reason
+ * @property integer $mass_leave
+ * @property integer $person_leave
+ * @property integer $balance
+ * @property string $replacement
+ * @property string $remark
+ * @property integer $approved_id
+ *
+ * The followings are the available model relations:
+ * @property GPerson $parent
  */
 class gLeave extends BaseModel
 {
 	public $parent_name;
-
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -64,21 +52,15 @@ class gLeave extends BaseModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('parent_id, d_cuti,d_dari, d_sampai, n_jmlhari, r_cuti, d_h_masuk', 'required'),
-				array('approved_id, parent_id, n_jmlhari, n_cutiii, c_masal, c_pribadi, n_sisacuti, tahunke', 'numerical', 'integerOnly'=>true),
-				array('n_cuti', 'length', 'max'=>255),
-				array('c_hriskd, c_h_masuk, c_ajukan, c_ketahui, c_setuju', 'length', 'max'=>10),
-				array('r_cuti', 'length', 'max'=>75),
-				array('userid, c_ganti', 'length', 'max'=>50),
-				array('pt_kodept', 'length', 'max'=>2),
-				array('pt_kodeproyek', 'length', 'max'=>3),
-				array('t_keterangan', 'length', 'max'=>250),
-				array('Id_OLD', 'length', 'max'=>5),
-				array('d_cuti, d_dari, d_sampai, d_h_masuk, d_ajukan, d_ketahui, d_setuju, tglmodify', 'safe'),
-				array('d_cuti, d_dari, d_sampai, d_h_masuk, d_ajukan, d_ketahui, d_setuju, tglmodify', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, parent_id, n_cuti, d_cuti, c_hriskd, d_dari, d_sampai, n_jmlhari, c_h_masuk, d_h_masuk, r_cuti, n_cutiii, c_masal, c_pribadi, n_sisacuti, c_ganti, c_ajukan, c_ketahui, c_setuju, d_ajukan, d_ketahui, d_setuju, userid, tglmodify, pt_kodept, pt_kodeproyek, t_keterangan, Id_OLD, tahunke', 'safe', 'on'=>'search'),
+			array('parent_id, approved_id', 'required'),
+			array('parent_id, year_leave, number_of_day, mass_leave, person_leave, balance, approved_id', 'numerical', 'integerOnly'=>true),
+			array('leave_reason', 'length', 'max'=>300),
+			array('replacement', 'length', 'max'=>50),
+			array('remark', 'length', 'max'=>250),
+			array('input_date, start_date, end_date, work_date', 'safe'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, parent_id, input_date, year_leave, start_date, end_date, number_of_day, work_date, leave_reason, mass_leave, person_leave, balance, replacement, remark, approved_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,8 +72,8 @@ class gLeave extends BaseModel
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'approved' => array(self::BELONGS_TO, 'sParameter', array('approved_id'=>'code'),'condition'=>'type = \'cLeaveApproved\''),
-				'person' => array(self::BELONGS_TO, 'gPerson', 'parent_id'),
+			'person' => array(self::BELONGS_TO, 'gPerson', 'parent_id'),
+			'approved' => array(self::BELONGS_TO, 'sParameter', array('approved_id'=>'code'),'condition'=>'type = \'cLeaveApproved\''),
 		);
 	}
 
@@ -101,37 +83,22 @@ class gLeave extends BaseModel
 	public function attributeLabels()
 	{
 		return array(
-				'id' => 'ID',
-				'parent_name' => 'Employee Name',
-				'parent_id' => 'parent',
-				'n_cuti' => 'N Cuti',
-				'd_cuti' => 'Input Date',
-				'c_hriskd' => 'HRID Code',
-				'd_dari' => 'Start Date',
-				'd_sampai' => 'End Date',
-				'n_jmlhari' => 'Days',
-				'c_h_masuk' => 'C H Masuk',
-				'd_h_masuk' => 'In Date',
-				'r_cuti' => 'Reason',
-				'n_cutiii' => 'Started Leave',
-				'c_masal' => 'Common Leaving',
-				'c_pribadi' => 'Personal Leaving',
-				'n_sisacuti' => 'Balance',
-				'c_ganti' => 'Replacement Person',
-				'c_ajukan' => 'C Ajukan',
-				'c_ketahui' => 'C Ketahui',
-				'c_setuju' => 'C Setuju',
-				'd_ajukan' => 'D Ajukan',
-				'd_ketahui' => 'D Ketahui',
-				'd_setuju' => 'D Setuju',
-				'userid' => 'Userid',
-				'tglmodify' => 'Tglmodify',
-				'pt_kodept' => 'Pt Kodept',
-				'pt_kodeproyek' => 'Pt Kodeproyek',
-				't_keterangan' => 'T Keterangan',
-				'Id_OLD' => 'Id Old',
-				'tahunke' => 'Tahunke',
-				'approved_id' => 'State',
+			'id' => 'ID',
+			'parent_id' => 'Parent',
+			'parent_name' => 'Employee Name',
+			'input_date' => 'Input Date',
+			'year_leave' => 'Year Leave',
+			'start_date' => 'Start Date',
+			'end_date' => 'End Date',
+			'number_of_day' => 'Number Of Day',
+			'work_date' => 'Work Date',
+			'leave_reason' => 'Leave Reason',
+			'mass_leave' => 'Mass Leave',
+			'person_leave' => 'Person Leave',
+			'balance' => 'Balance',
+			'replacement' => 'Replacement',
+			'remark' => 'Remark',
+			'approved_id' => 'Approved',
 		);
 	}
 
@@ -147,41 +114,103 @@ class gLeave extends BaseModel
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
-		$criteria->order='d_dari DESC';
+		$criteria->order='start_date DESC';
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				'pagination'=>false,
+			'criteria'=>$criteria,
+			'pagination'=>false,
 		));
 	}
 
-	public static function getTopCreated() {
+	public function onWaiting()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
-		$models=gPerson::model()->findAll(array('limit'=>10,'order'=>'created_date DESC'));
+		$criteria=new CDbCriteria;
 
-		$returnarray = array();
+		$criteria->with=array('person');
+		$criteria->together=true;
+		$criteria->compare('approved_id',1);
+		$criteria->compare('start_date>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
 
-		foreach ($models as $model) {
-			$_nama= (strlen($model->vc_psnama) >15) ? substr($model->vc_psnama,0,15)."..." : $model->vc_psnama;
-			$returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon'=>'list-alt', 'url' => array('/m1/gLeave/view','id'=>$model->id));
-		}
-
-		return $returnarray;
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				//'pagination'=>false,
+		));
 	}
 
-	public static function getTopUpdated() {
+	public function onPending()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
-		$models=gPerson::model()->findAll(array('limit'=>10,'order'=>'updated_date DESC'));
+		$criteria=new CDbCriteria;
 
-		$returnarray = array();
+		$criteria->with=array('person');
+		$criteria->together=true;
+		$criteria->compare('approved_id',4);
+		$criteria->compare('start_date>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
 
-		foreach ($models as $model) {
-			$_nama= (strlen($model->vc_psnama) >15) ? substr($model->vc_psnama,0,15)."..." : $model->vc_psnama;
-			$returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon'=>'list-alt', 'url' => array('/m1/gLeave/view','id'=>$model->id));
-		}
-
-		return $returnarray;
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				//'pagination'=>false,
+		));
 	}
 
+	public function OnApproved()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('person');
+		$criteria->together=true;
+		$criteria->compare('approved_id',2);
+		$criteria->compare('start_date>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				//'pagination'=>false,
+		));
+	}
+
+	public function onLeave()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('person');
+		$criteria->together=true;
+		$criteria->compare('approved_id',2);
+		$criteria->condition='CURDATE() BETWEEN start_date AND end_date';
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				//'pagination'=>false,
+		));
+	}
+
+	public function OnRecent()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('person');
+		$criteria->together=true;
+		$criteria->compare('approved_id',2);
+		$criteria->compare('YEAR(end_date)',date('Y',time()));
+		$criteria->order='end_date DESC';
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+				//'pagination'=>false,
+		));
+	}
+	
 }

@@ -9,8 +9,8 @@ $this->menu=array(
 		//array('label'=>'Manage gPerson','url'=>array('admin')),
 );
 
-$this->menu1=gLeave::getTopUpdated();
-$this->menu2=gLeave::getTopCreated();
+//$this->menu1=gLeave::getTopUpdated();
+//$this->menu2=gLeave::getTopCreated();
 
 ?>
 

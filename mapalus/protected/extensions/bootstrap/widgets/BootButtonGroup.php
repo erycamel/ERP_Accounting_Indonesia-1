@@ -52,7 +52,11 @@ class BootButtonGroup extends CWidget
 	 */
 	public $toggle;
 	/**
-	 * @var boolean indicates whether dropdowns should be dropups instead.
+	 * @var boolean indicates whether the button group appears vertically stacked. Defaults to 'false'.
+	 */
+	public $stacked = false;
+	/**
+	 * @var boolean indicates whether dropdowns should be dropups instead. Defaults to 'false'.
 	 */
 	public $dropup = false;
 
@@ -62,6 +66,9 @@ class BootButtonGroup extends CWidget
 	public function init()
 	{
 		$classes = array('btn-group');
+
+		if ($this->stacked === true)
+			$classes[] = 'btn-group-vertical';
 
 		if ($this->dropup === true)
 			$classes[] = 'dropup';
@@ -94,17 +101,17 @@ class BootButtonGroup extends CWidget
 				continue;
 
 			$this->controller->widget('bootstrap.widgets.BootButton', array(
-					'buttonType'=>isset($button['buttonType']) ? $button['buttonType'] : $this->buttonType,
-					'type'=>isset($button['type']) ? $button['type'] : $this->type,
-					'size'=>$this->size, // all buttons in a group cannot vary in size
-					'icon'=>isset($button['icon']) ? $button['icon'] : null,
-					'label'=>isset($button['label']) ? $button['label'] : null,
-					'url'=>isset($button['url']) ? $button['url'] : null,
-					'active'=>isset($button['active']) ? $button['active'] : false,
-					'items'=>isset($button['items']) ? $button['items'] : array(),
-					'ajaxOptions'=>isset($button['ajaxOptions']) ? $button['ajaxOptions'] : array(),
-					'htmlOptions'=>isset($button['htmlOptions']) ? $button['htmlOptions'] : array(),
-					'encodeLabel'=>isset($button['encodeLabel']) ? $button['encodeLabel'] : $this->encodeLabel,
+				'buttonType'=>isset($button['buttonType']) ? $button['buttonType'] : $this->buttonType,
+				'type'=>isset($button['type']) ? $button['type'] : $this->type,
+				'size'=>$this->size, // all buttons in a group cannot vary in size
+				'icon'=>isset($button['icon']) ? $button['icon'] : null,
+				'label'=>isset($button['label']) ? $button['label'] : null,
+				'url'=>isset($button['url']) ? $button['url'] : null,
+				'active'=>isset($button['active']) ? $button['active'] : false,
+				'items'=>isset($button['items']) ? $button['items'] : array(),
+				'ajaxOptions'=>isset($button['ajaxOptions']) ? $button['ajaxOptions'] : array(),
+				'htmlOptions'=>isset($button['htmlOptions']) ? $button['htmlOptions'] : array(),
+				'encodeLabel'=>isset($button['encodeLabel']) ? $button['encodeLabel'] : $this->encodeLabel,
 			));
 		}
 

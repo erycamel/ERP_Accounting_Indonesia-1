@@ -17,7 +17,7 @@ $this->menu5=array('Leave');
 
 
 <?php
-$this->widget('bootstrap.widgets.BootTabbable', array(
+$this->widget('bootstrap.widgets.BootTabs', array(
 		'type'=>'tabs', // 'tabs' or 'pills'
 		'tabs'=>array(
 				array('label'=>'List Cuti','content'=>$this->renderPartial("_tabList", array("model"=>$model), true),'active'=>true),

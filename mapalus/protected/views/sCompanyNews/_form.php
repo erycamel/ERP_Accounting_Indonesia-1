@@ -4,63 +4,47 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'scompany-news-form',
-	'enableAjaxValidation'=>false,
+<?php 
+$form=$this->beginWidget('BootActiveForm', array(
+		'id'=>'sNotification-form',
+		'type'=>'horizontal',
+		'enableAjaxValidation'=>false,
 )); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
+		<?php echo $form->textFieldRow($model,'title',array('class'=>'span6')); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'content'); ?>
-		<?php echo $form->textArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'content'); ?>
-	</div>
+		<?php //echo $form->textAreaRow($model,'content',array('class'=>'span10', 'rows'=>16)); ?>
+		
+		<div class="control-group">
+			<?php echo $form->labelEx($model,'content',array('class'=>'control-label')); ?>
+			<div class="controls">
+			<?php 
+				$this->widget('ext.tinymce.TinyMce', array(
+					'model' => $model,
+					'attribute' => 'content',
+					// Optional config
+					'compressorRoute' => 'sCompanyNews/compressor',
+					'spellcheckerRoute' => 'sCompanyNews/spellchecker',
+					//'fileManager' => array(
+					//	'class' => 'ext.elFinder.TinyMceElFinder',
+					//	'connectorRoute'=>'sFileBrowser/connectorPublicFolder',
+					//),
+					//'htmlOptions' => array(
+					//	'rows' => 6,
+					//	'cols' => '100%',
+					//),
+				));
+			?>
+		</div>
+		</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'tags'); ?>
-		<?php echo $form->textArea($model,'tags',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'tags'); ?>
-	</div>
+		<?php echo $form->textFieldRow($model,'tags',array('class'=>'span3')); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'status_id'); ?>
-		<?php echo $form->textField($model,'status_id'); ?>
-		<?php echo $form->error($model,'status_id'); ?>
-	</div>
+		<div class="form-actions">
+			<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create':'<i class="icon-ok"></i> Save', array('class'=>'btn', 'type'=>'submit')); ?>
+		</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'created_date'); ?>
-		<?php echo $form->textField($model,'created_date'); ?>
-		<?php echo $form->error($model,'created_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'updated_date'); ?>
-		<?php echo $form->textField($model,'updated_date'); ?>
-		<?php echo $form->error($model,'updated_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'author_id'); ?>
-		<?php echo $form->textField($model,'author_id'); ?>
-		<?php echo $form->error($model,'author_id'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- form -->

@@ -54,16 +54,20 @@ class GPersonController extends Controller
 		$modelCareer=$this->newCareer($model->id);
 		$modelFamily=$this->newFamily($model->id);
 		$modelEducation=$this->newEducation($model->id);
+		$modelEducationNf=$this->newEducationNf($model->id);
 		$modelExperience=$this->newExperience($model->id);
 		$modelStatus=$this->newStatus($model->id);
+		$modelOther=$this->newOther($model->id);
 
 		$this->render('view',array(
 				'model'=>$model,
 				'modelCareer'=>$modelCareer,
 				'modelFamily'=>$modelFamily,
 				'modelEducation'=>$modelEducation,
+				'modelEducationNf'=>$modelEducationNf,
 				'modelExperience'=>$modelExperience,
 				'modelStatus'=>$modelStatus,
+				'modelOther'=>$modelOther,
 		));
 	}
 
@@ -134,6 +138,24 @@ class GPersonController extends Controller
 		return $model;
 	}
 
+	public function newEducationNf($id)
+	{
+		$model=new GPersonEducationNf;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['GPersonEducationNf']))
+		{
+			$model->attributes=$_POST['GPersonEducationNf'];
+			$model->parent_id=$id;
+			if($model->save())
+				$this->redirect(array('view','id'=>$id));
+		}
+
+		return $model;
+	}
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -171,7 +193,28 @@ class GPersonController extends Controller
 		{
 			$model->attributes=$_POST['gPersonStatus'];
 			$model->parent_id=$id;
-			$model->valid_id=2;
+			if($model->save())
+				$this->redirect(array('view','id'=>$id));
+		}
+
+		return $model;
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function newOther($id)
+	{
+		$model=new gPersonOther;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['gPersonOther']))
+		{
+			$model->attributes=$_POST['gPersonOther'];
+			$model->parent_id=$id;
 			if($model->save())
 				$this->redirect(array('view','id'=>$id));
 		}
@@ -193,7 +236,6 @@ class GPersonController extends Controller
 		if(isset($_POST['gPerson']))
 		{
 			$model->attributes=$_POST['gPerson'];
-			$model->VALID_INFO='VALID';
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -238,7 +280,6 @@ class GPersonController extends Controller
 		{
 			$model->attributes=$_POST['gPersonCareer'];
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
 				EQuickDlgs::checkDialogJsScript();
 		}
 
@@ -281,6 +322,24 @@ class GPersonController extends Controller
 		EQuickDlgs::render('_formEducation',array('model'=>$model));
 	}
 
+	public function actionUpdateEducationNf($id)
+	{
+		$model=$this->loadModelEducationNf($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['gPersonEducationNf']))
+		{
+			$model->attributes=$_POST['gPersonEducationNf'];
+			if($model->save())
+				//$this->redirect(array('view','id'=>$model->id));
+				EQuickDlgs::checkDialogJsScript();
+		}
+
+		EQuickDlgs::render('_formEducationNf',array('model'=>$model));
+	}
+
 	public function actionUpdateExperience($id)
 	{
 		$model=$this->loadModelExperience($id);
@@ -310,11 +369,32 @@ class GPersonController extends Controller
 		{
 			$model->attributes=$_POST['gPersonStatus'];
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
 				EQuickDlgs::checkDialogJsScript();
 		}
 
 		EQuickDlgs::render('_formStatus',array('model'=>$model));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdateOther($id)
+	{
+		$model=$this->loadModelOther($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['gPersonOther']))
+		{
+			$model->attributes=$_POST['gPersonOther'];
+			if($model->save())
+				EQuickDlgs::checkDialogJsScript();
+		}
+
+		EQuickDlgs::render('_formOther',array('model'=>$model));
 	}
 
 	/**
@@ -382,6 +462,21 @@ class GPersonController extends Controller
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
+	public function actionDeleteEducationNf($id)
+	{
+		if(Yii::app()->request->isPostRequest)
+		{
+			// we only allow deletion via POST request
+			$this->loadModelEducationNf($id)->delete();
+
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('view',"id"=>$model->parent_id));
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+
 	public function actionDeleteExperience($id)
 	{
 		if(Yii::app()->request->isPostRequest)
@@ -413,6 +508,20 @@ class GPersonController extends Controller
 	}
 
 	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDeleteOther($id)
+	{
+		$this->loadModelOther($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+
+	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
@@ -423,17 +532,10 @@ class GPersonController extends Controller
 		$criteria=new CDbCriteria;
 		$criteria1=new CDbCriteria;
 
-		##TEMP
-		$criteria->compare('VALID_INFO','VALID');
-		$criteria->with=array('company');
-		##
-
 		if (Yii::app()->user->name != "admin") {
+			$criteria->with=array('company');
 			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
-				
 		}
-
-
 
 		if(isset($_GET['gPerson'])) {
 			$model->attributes=$_GET['gPerson'];
@@ -463,12 +565,9 @@ class GPersonController extends Controller
 	public function loadModel($id)
 	{
 		$criteria=new CDbCriteria;
-		##TEMP
-		$criteria->compare('VALID_INFO','VALID');
-		$criteria->with=array('company');
-		##
 
 		if (Yii::app()->user->name != "admin") {
+			$criteria->with=array('company');
 			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
 				
 		}
@@ -503,6 +602,14 @@ class GPersonController extends Controller
 		return $model;
 	}
 
+	public function loadModelEducationNf($id)
+	{
+		$model=gPersonEducationNf::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 	public function loadModelExperience($id)
 	{
 		$model=gPersonExperience::model()->findByPk($id);
@@ -514,6 +621,19 @@ class GPersonController extends Controller
 	public function loadModelStatus($id)
 	{
 		$model=gPersonStatus::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModelOther($id)
+	{
+		$model=gPersonOther::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -536,10 +656,24 @@ class GPersonController extends Controller
 	{
 		$res =array();
 		if (isset($_GET['term'])) {
-			$qtxt ="SELECT employee_name as label, id FROM g_person WHERE VALID_INFO = 'VALID' AND employee_name LIKE :name ORDER BY employee_name LIMIT 20";
+			//$qtxt ="SELECT employee_name as label, id FROM g_person WHERE employee_name LIKE :name ORDER BY employee_name LIMIT 20";
+			$qtxt ="SELECT DISTINCT employee_name FROM g_person WHERE employee_name LIKE :name ORDER BY employee_name LIMIT 20";
 			$command =Yii::app()->db->createCommand($qtxt);
 			$command->bindValue(":name", '%'.$_GET['term'].'%', PDO::PARAM_STR);
-			//$res =$command->queryColumn();
+			$res =$command->queryColumn();
+			//$res =$command->queryAll();
+
+		}
+		echo CJSON::encode($res);
+	}
+
+	public function actionPersonAutoCompleteId()
+	{
+		$res =array();
+		if (isset($_GET['term'])) {
+			$qtxt ="SELECT employee_name as label, id FROM g_person WHERE employee_name LIKE :name ORDER BY employee_name LIMIT 20";
+			$command =Yii::app()->db->createCommand($qtxt);
+			$command->bindValue(":name", '%'.$_GET['term'].'%', PDO::PARAM_STR);
 			$res =$command->queryAll();
 
 		}
@@ -567,5 +701,23 @@ class GPersonController extends Controller
 
 
 	}
+	
+	public function actionUpload($id) {
+        Yii::import("ext.EAjaxUpload.qqFileUploader");
+ 
+        $folder='shareimages/hr/employee/';  // folder for uploaded files
+        $allowedExtensions = array("jpg");  //array("jpg","jpeg","gif","exe","mov" and etc...
+        $sizeLimit = 5 * 1024 * 1024;// maximum file size in bytes
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+        $result = $uploader->handleUpload($folder);
+        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+ 
+        $fileSize=filesize($folder.$result['filename']);//GETTING FILE SIZE
+        $fileName=$result['filename'];//GETTING FILE NAME
+		
+		gPerson::model()->updateByPk($id,array('c_pathfoto'=>$fileName));
+ 
+        echo $return;// it's array
+	}	
 
 }

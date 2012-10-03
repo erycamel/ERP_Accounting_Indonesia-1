@@ -8,6 +8,8 @@
 				'industries',
 				'start_date',
 				'end_date',
+				'year_length',
+				'month_length',
 				'job_title',
 				//array(
 				//	'class'=>'BootButtonColumn',
@@ -24,15 +26,10 @@
 								'actionParams' => array('id'=>'$data->id'),
 								'dialogTitle' => 'Update Experience',
 								'dialogWidth' => 512, //override the value from the dialog config
-								'dialogHeight' => 600,
+								'dialogHeight' => 530
 						),
 				),
 		),
 )); ?>
 
 
-<div class="page-header">
-	<h3>New Experience</h3>
-</div>
-
-<?php echo $this->renderPartial('_formExperience',array('model'=>$modelExperience)); ?>

@@ -85,9 +85,9 @@ class BootTabs extends CWidget
 
 		ob_start();
 		$this->controller->widget('bootstrap.widgets.BootMenu', array(
-				'type'=>$this->type,
-				'encodeLabel'=>$this->encodeLabel,
-				'items'=>$items,
+			'type'=>$this->type,
+			'encodeLabel'=>$this->encodeLabel,
+			'items'=>$items,
 		));
 		$tabs = ob_get_clean();
 

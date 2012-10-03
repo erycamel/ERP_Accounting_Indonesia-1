@@ -62,7 +62,7 @@ Yii::app()->clientScript->registerCss('userAutoComplete', <<<EOCSS
 
 		<?php echo $form->textAreaRow($model,'general_remark',array('class'=>'span4','rows'=>4)); ?>
 
-		<?php echo $form->fileFieldRow($model,'image',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->fileFieldRow($model,'image',array('class'=>'span3')); ?>
 
 		<?php $this->widget('CMultiFileUpload', array(
 		'name' => 'docs',

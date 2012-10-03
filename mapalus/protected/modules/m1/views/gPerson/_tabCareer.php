@@ -5,7 +5,6 @@
 		'template'=>'{items}',
 		'columns'=>array(
 				'start_date',
-				'end_date',
 				array(
 						'header'=>'Status',
 						'value'=>'isset($data->status->name) ? $data->status->name : ""',
@@ -24,11 +23,6 @@
 						'value'=>'isset($data->level->name) ? $data->level->name : ""',
 				),
 				'job_title',
-				//array(
-				//		'class'=>'bootstrap.widgets.BootButtonColumn',
-				//		'template'=>'{delete}',
-				//		'deleteButtonUrl'=>'Yii::app()->createUrl("m1/gPerson/deleteCareer",array("id"=>$data->id))',
-				//),
 				array(
 						'class'=>'EJuiDlgsColumn',
 						'template'=>'{update}{delete}',
@@ -39,14 +33,9 @@
 								'actionParams' => array('id'=>'$data->id'),
 								'dialogTitle' => 'Update Career',
 								'dialogWidth' => 512, //override the value from the dialog config
-								'dialogHeight' => 600,
+								'dialogHeight' => 530
 						),
 				),
 		),
 )); ?>
 
-<div class="page-header">
-	<h3>New Career</h3>
-</div>
-
-<?php echo $this->renderPartial('_formCareer',array('model'=>$modelCareer)); ?>

@@ -10,7 +10,10 @@
 				),
 				'birth_place',
 				'birth_date',
-				'sex_id',
+				array(
+					'header'=>'Sex',
+					'value'=>'$data->sex->name',
+				),
 				'remark',
 				//'payroll_cover_id',
 				//array(
@@ -28,14 +31,9 @@
 										'actionParams' => array('id'=>'$data->id'),
 										'dialogTitle' => 'Update Family',
 										'dialogWidth' => 512, //override the value from the dialog config
-										'dialogHeight' => 600,
+										'dialogHeight' => 530
 								),
 						),
 		),
 )); ?>
 
-<div class="page-header">
-	<h3>New Family</h3>
-</div>
-
-<?php echo $this->renderPartial('_formFamily',array('model'=>$modelFamily)); ?>

@@ -1,6 +1,6 @@
 
 <?php
-$this->widget('createNew');
+	$this->widget('createNew');
 ?>
 
 <ul class="nav nav-list">

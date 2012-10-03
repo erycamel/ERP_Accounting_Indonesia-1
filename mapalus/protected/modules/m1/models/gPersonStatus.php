@@ -6,8 +6,7 @@
  * The followings are the available columns in table 'g_person_status':
  * @property integer $id
  * @property integer $parent_id
- * @property string $cdate
- * @property integer $valid_id
+ * @property string $start_date
  * @property integer $status_id
  * @property string $remark
  *
@@ -42,13 +41,13 @@ class gPersonStatus extends BaseModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('parent_id, valid_id', 'required'),
-				array('parent_id, valid_id, status_id', 'numerical', 'integerOnly'=>true),
+				array('parent_id,start_date,status_id', 'required'),
+				array('parent_id, status_id', 'numerical', 'integerOnly'=>true),
 				array('remark', 'length', 'max'=>150),
-				array('cdate', 'safe'),
+				array('start_date, end_date', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, parent_id, cdate, valid_id, status_id, remark', 'safe', 'on'=>'search'),
+				array('id, parent_id, start_date, end_date, status_id, remark', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +61,6 @@ class gPersonStatus extends BaseModel
 		return array(
 				'parent' => array(self::BELONGS_TO, 'GPerson', 'parent_id'),
 				'status' => array(self::BELONGS_TO, 'sParameter', array('status_id'=>'code'),'condition'=>'type = \'AK\''),
-				'valid' => array(self::BELONGS_TO, 'sParameter', array('valid_id'=>'code'),'condition'=>'type = \'cValidState\''),
 		);
 	}
 
@@ -74,8 +72,8 @@ class gPersonStatus extends BaseModel
 		return array(
 				'id' => 'ID',
 				'parent_id' => 'Parent',
-				'cdate' => 'Date',
-				'valid_id' => 'Valid',
+				'start_date' => 'Start Date',
+				'end_date' => 'End Date',
 				'status_id' => 'Status',
 				'remark' => 'Remark',
 		);
@@ -93,6 +91,7 @@ class gPersonStatus extends BaseModel
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
+		$criteria->order='start_date DESC';
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,

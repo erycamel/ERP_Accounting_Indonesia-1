@@ -1,6 +1,6 @@
 <?php
 
-class sNotificationDetail extends CActiveRecord
+class sNotificationDetail extends BaseModel
 {
 	public static function model($className=__CLASS__)
 	{

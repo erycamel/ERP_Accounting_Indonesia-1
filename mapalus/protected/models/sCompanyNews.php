@@ -11,9 +11,9 @@
  * @property integer $status_id
  * @property integer $created_date
  * @property integer $updated_date
- * @property integer $author_id
+ * @property integer $created_by
  */
-class sCompanyNews extends CActiveRecord
+class sCompanyNews extends BaseModel
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,13 +41,13 @@ class sCompanyNews extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('title, content, status_id, author_id', 'required'),
-				array('status_id, created_date, updated_date, author_id', 'numerical', 'integerOnly'=>true),
+				array('title, content, status_id', 'required'),
+				array('status_id, created_date, updated_date, created_by, updated_by', 'numerical', 'integerOnly'=>true),
 				array('title', 'length', 'max'=>128),
 				array('tags', 'safe'),
 				// The following rule is used by search().
 				// Please remove those attributes that should not be searched.
-				array('id, title, content, tags, status_id, created_date, updated_date, author_id', 'safe', 'on'=>'search'),
+				array('id, title, content, tags, status_id, created_date, updated_date, created_by, updated_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,8 +75,45 @@ class sCompanyNews extends CActiveRecord
 				'status_id' => 'status_id',
 				'created_date' => 'Create Time',
 				'updated_date' => 'Update Time',
-				'author_id' => 'Author',
+				'created_by' => 'Author',
 		);
 	}
 
+	public static function getTopCreated() {
+
+		$criteria=new CDbCriteria;
+		$criteria->limit=10;
+		$criteria->order='created_date DESC';
+
+
+		$models=self::model()->findAll($criteria);
+
+		$returnarray = array();
+
+		foreach ($models as $model) {
+			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('view','id'=>$model->id));
+		}
+
+		return $returnarray;
+	}
+
+	public static function getTopUpdated() {
+
+		$criteria=new CDbCriteria;
+		$criteria->limit=10;
+		$criteria->order='updated_date DESC';
+
+
+		$models=self::model()->findAll($criteria);
+
+		$returnarray = array();
+
+		foreach ($models as $model) {
+			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('view','id'=>$model->id));
+		}
+
+		return $returnarray;
+	}
+
+	
 }

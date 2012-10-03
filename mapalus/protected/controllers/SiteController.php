@@ -112,12 +112,13 @@ class SiteController extends Controller
 
 		//TopNews
 		$criteria=new CDbCriteria;
-
 		$criteria->order='created_date DESC';
-		$criteria->limit=2;
-		//
+
 		$dataProvider=new CActiveDataProvider('sCompanyNews', array(
 				'criteria'=>$criteria,
+				'pagination'=>array(
+					'pageSize'=>3,
+				),
 		));
 
 

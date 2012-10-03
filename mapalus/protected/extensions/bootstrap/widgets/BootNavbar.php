@@ -8,6 +8,8 @@
  * @since 0.9.7
  */
 
+Yii::import('bootstrap.widgets.BootCollapse');
+
 /**
  * Bootstrap navigation bar widget.
  */
@@ -38,11 +40,6 @@ class BootNavbar extends CWidget
 	 */
 	public $brandOptions = array();
 	/**
-	 * @var array navigation items.
-	 * @since 0.9.8
-	 */
-	public $items = array();
-	/**
 	 * @var mixed fix location of the navbar if applicable.
 	 * Valid values are 'top' and 'bottom'. Defaults to 'top'.
 	 * Setting the value to false will make the navbar static.
@@ -50,14 +47,19 @@ class BootNavbar extends CWidget
 	 */
 	public $fixed = self::FIXED_TOP;
 	/**
-	 * @var boolean whether the nav span over the full width. Defaults to false.
-	 * @since 0.9.8
-	 */
+	* @var boolean whether the nav span over the full width. Defaults to false.
+	* @since 0.9.8
+	*/
 	public $fluid = false;
 	/**
 	 * @var boolean whether to enable collapsing on narrow screens. Default to false.
 	 */
 	public $collapse = false;
+	/**
+	 * @var array navigation items.
+	 * @since 0.9.8
+	 */
+	public $items = array();
 	/**
 	 * @var array the HTML attributes for the widget container.
 	 */
@@ -107,14 +109,14 @@ class BootNavbar extends CWidget
 	 */
 	public function run()
 	{
-		$containerCssClass = $this->fluid ? 'container-fluid' : 'container';
-
 		echo CHtml::openTag('div', $this->htmlOptions);
-		echo '<div class="navbar-inner"><div class="'.$containerCssClass.'">';
+		echo '<div class="navbar-inner"><div class="'.$this->getContainerCssClass().'">';
 
-		if ($this->collapse)
+		$collapseId = BootCollapse::getNextContainerId();
+
+		if ($this->collapse !== false)
 		{
-			echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
+			echo '<a class="btn btn-navbar" data-toggle="collapse" data-target="#'.$collapseId.'">';
 			echo '<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 			echo '</a>';
 		}
@@ -122,11 +124,12 @@ class BootNavbar extends CWidget
 		if ($this->brand !== false)
 			echo CHtml::openTag('a', $this->brandOptions).$this->brand.'</a>';
 
-		if ($this->collapse)
+		if ($this->collapse !== false)
 		{
 			$this->controller->beginWidget('bootstrap.widgets.BootCollapse', array(
-					'toggle'=>false, // navbars should be collapsed by default
-					'htmlOptions'=>array('class'=>'nav-collapse'),
+				'id'=>$collapseId,
+				'toggle'=>false, // navbars should be collapsed by default
+				'htmlOptions'=>array('class'=>'nav-collapse'),
 			));
 		}
 
@@ -146,9 +149,18 @@ class BootNavbar extends CWidget
 			}
 		}
 
-		if ($this->collapse)
+		if ($this->collapse !== false)
 			$this->controller->endWidget();
 
 		echo '</div></div></div>';
+	}
+
+	/**
+	 * Returns the navbar container CSS class.
+	 * @return string the class
+	 */
+	protected function getContainerCssClass()
+	{
+		return $this->fluid ? 'container-fluid' : 'container';
 	}
 }

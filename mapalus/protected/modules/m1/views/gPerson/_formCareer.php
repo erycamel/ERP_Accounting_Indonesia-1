@@ -2,14 +2,11 @@
 Yii::app()->clientScript->registerScriptFile(Yii::app()->getClientScript()->getCoreScriptUrl().'/jui/css/2jui-bootstrap/js/jquery-ui-1.8.16.custom.min.js');
 Yii::app()->clientScript->registerCssFile(Yii::app()->getClientScript()->getCoreScriptUrl().'/jui/css/2jui-bootstrap/jquery-ui.css');
 
-Yii::app()->clientScript->registerScript('datepicker3', "
+Yii::app()->clientScript->registerScript('datepicker1', "
 		$(function() {
 		$( \"#".CHtml::activeId($model,'start_date')."\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
-});
-		$( \"#".CHtml::activeId($model,'end_date')."\" ).datepicker({
-		'dateFormat' : 'dd-mm-yy',
-});
+		});
 			
 });
 
@@ -26,11 +23,7 @@ Yii::app()->clientScript->registerScript('datepicker3', "
 
 <?php echo $form->textFieldRow($model,'start_date',array('class'=>'span2')); ?>
 
-<?php echo $form->textFieldRow($model,'end_date',array('class'=>'span2')); ?>
-
 <?php echo $form->dropDownListRow($model,'status_id',sParameter::items('cPromotion')); ?>
-
-<?php //echo $form->dropDownListRow($model,'company_id',aOrganization::model()->companyDropDown()); ?>
 
 <div class="control-group">
 	<?php echo $form->labelEx($model,'company_id',array("class"=>"control-label")); ?>

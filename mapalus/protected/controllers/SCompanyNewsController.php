@@ -1,12 +1,12 @@
 <?php
 
-class SCompanyNewsController extends Controller
+class sCompanyNewsController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/mainGuest';
+	public $layout='//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -29,7 +29,12 @@ class SCompanyNewsController extends Controller
 	{
 		return array(
 				array('allow',  // allow all users to access 'index' and 'view' actions.
+						'actions'=>array('view','index'),
 						'users'=>array('*'),
+				),
+				array('allow',  // allow all users to access 'index' and 'view' actions.
+						'actions'=>array('create','compressor','spellchecker','update','delete'),
+						'users'=>array('@'),
 				),
 				array('deny',  // deny all users
 						'users'=>array('*'),
@@ -37,12 +42,30 @@ class SCompanyNewsController extends Controller
 		);
 	}
 
-	/**
+	public function actions()
+	{
+		return array(
+			'compressor' => array(
+				'class' => 'ext.tinymce.TinyMceCompressorAction',
+				'settings' => array(
+					'compress' => true,
+					'disk_cache' => true,
+				)
+			),
+				'spellchecker' => array(
+					'class' => 'ext.tinymce.TinyMceSpellcheckerAction',
+				),
+		);
+	}
+
+	  /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
+		$this->layout='//layouts/mainGuest';
+		
 		$this->render('view',array(
 				'model'=>$this->loadModel($id),
 		));
@@ -54,14 +77,16 @@ class SCompanyNewsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new SCompanyNews;
+		$model=new sCompanyNews;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SCompanyNews']))
+		if(isset($_POST['sCompanyNews']))
 		{
-			$model->attributes=$_POST['SCompanyNews'];
+			$model->attributes=$_POST['sCompanyNews'];
+			$model->status_id=1;
+			$model->created_by=1;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -83,9 +108,9 @@ class SCompanyNewsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SCompanyNews']))
+		if(isset($_POST['sCompanyNews']))
 		{
-			$model->attributes=$_POST['SCompanyNews'];
+			$model->attributes=$_POST['sCompanyNews'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -114,24 +139,16 @@ class SCompanyNewsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('SCompanyNews');
+		$dataProvider=new CActiveDataProvider('sCompanyNews',array(
+			'criteria'=>array(
+				'order'=>'created_date DESC',
+			),
+			'pagination'=>array(
+				'pageSize'=>20,
+			),		
+		));
 		$this->render('index',array(
 				'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new SCompanyNews('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SCompanyNews']))
-			$model->attributes=$_GET['SCompanyNews'];
-
-		$this->render('admin',array(
-				'model'=>$model,
 		));
 	}
 
@@ -142,7 +159,7 @@ class SCompanyNewsController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=SCompanyNews::model()->findByPk($id);
+		$model=sCompanyNews::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

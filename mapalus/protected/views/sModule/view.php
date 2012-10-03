@@ -6,6 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 		array('label'=>'Home', 'url'=>array('/sModule')),
+		array('label'=>'Update', 'url'=>array('update','id'=>$model->id)),
 );
 
 $this->menu4=sModule::getTopOther();

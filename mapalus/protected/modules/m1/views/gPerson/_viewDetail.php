@@ -1,28 +1,29 @@
 <div class="row-fluid">
 	<div class="span2 well">
 		<?php 
-		if ($data->c_pathfoto == null || (!is_file(Yii::app()->request->baseUrl . "/shareimages/hr/employee/" .$data->c_pathfoto))) {
-			echo CHtml::image(Yii::app()->request->baseUrl . "/images/nophoto.jpg", "No Photo", array("class"=>"100%"));
-			//$this->widget('ext.espaceholder.ESpaceHolder', array(
-			//		'size' => '100%', // you can also do 300x250
-			//		'text' => CHtml::encode($data->employee_name),
-			//		'htmlOptions' => array( 'title' => 'test image' )
-			//));
-
-		} else {
-			echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/hr/employee/" .$data->c_pathfoto, CHtml::encode($data->employee_name), array("width"=>"100%"));
-		}
+			echo $data->photoPath;
 		?>
 	</div>
 	<div class="span9">
 		<?php echo CHtml::encode($data->employee_code); ?>
-		<?php //echo CHtml::encode($data->c_proyek); ?>
-		<?php //echo CHtml::encode($data->c_pt); ?>
-		<?php //echo CHtml::encode($data->c_direktorat); ?>
-		<br /> <b><?php echo CHtml::encode($data->getAttributeLabel('birth_place')); ?>:</b>
-		<?php echo CHtml::encode($data->birth_place); ?>
-		<br /> <b><?php echo CHtml::encode($data->getAttributeLabel('birth_date')); ?>:</b>
-		<?php echo CHtml::encode($data->birth_date); ?>
+		<br/>
+		<?php
+			if (isset($data->company)) {
+				echo CHtml::encode($data->mCompany());
+				echo "<br/>";
+				echo CHtml::encode($data->mLevel()); 
+				echo "<br/>";
+				echo CHtml::encode($data->mJobTitle()); 
+			}
+		?>
+		<br/>
+		<?php
+			if (isset($data->status)) {
+				echo CHtml::encode($data->mStatus()); 
+			} else
+				echo CHTML::tag('div',array('style'=>'color:red;'),".::INCOMPLETE::.");
+		?>
+
 		<br /> <b><?php echo CHtml::encode($data->getAttributeLabel('sex_id')); ?>:</b>
 		<?php echo isset($data->sex) ? $data->sex->name : ""; ?>
 		<br /> <b><?php echo CHtml::encode($data->getAttributeLabel('religion_id')); ?>:</b>
@@ -33,8 +34,8 @@
 		<?php echo CHtml::encode($data->address2); ?>
 		<?php echo CHtml::encode($data->address3); ?>
 		<?php echo CHtml::encode($data->pos_code); ?>
-		<br /> <b><?php echo CHtml::encode($data->getAttributeLabel('userid')); ?>:</b>
-		<?php echo CHtml::encode($data->userid); ?>
+		<br/>
+		
 
 	</div>
 

@@ -45,6 +45,7 @@ class gPersonFamily extends BaseModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+				array('f_name', 'required'),
 				array('parent_id, relation_id, sex_id, payroll_cover_id', 'numerical', 'integerOnly'=>true),
 				array('f_name, birth_place', 'length', 'max'=>50),
 				array('remark', 'length', 'max'=>200),
@@ -100,6 +101,7 @@ class gPersonFamily extends BaseModel
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('parent_id',$id);
+		$criteria->order='relation_id';
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,

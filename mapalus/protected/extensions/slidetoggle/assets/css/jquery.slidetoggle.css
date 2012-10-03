@@ -5,7 +5,7 @@
 .slidetoggle-collapsible.arrow {
 	background-image: url(down.gif);
 	background-repeat: no-repeat;
-	background-position: 6px center;
+	background-position: 6px 10px;
 	padding-right: 3px;
 	padding-left: 18px;
 }
@@ -13,7 +13,7 @@
 .slidetoggle-collapsible.slidetoggle-collapsed.arrow {
 	background-image: url(right.gif);
 	background-repeat: no-repeat;
-	background-position: 6px center;
+	background-position: 6px 10px;
 	padding-right: 3px;
 	padding-left: 18px;
 }

@@ -7,6 +7,13 @@ $this->breadcrumbs=array(
 	$model->title,
 );
 
+$this->menu=array(
+	array('label'=>'Home', 'url'=>array('/sCompanyNews')),
+);
+
+$this->menu1=sCompanyNews::getTopUpdated();
+//$this->menu2=sCompanyNews::getTopCreated();
+
 ?>
 
 <div class="page-header">
@@ -14,7 +21,7 @@ $this->breadcrumbs=array(
 </div>
 
 <?php 
-echo "Posted By: ".$model->author_id;
+echo "Posted By: ".$model->created_by;
 echo "<br/>";
 echo "Posted Date: ".$model->created_date;
 echo "<br/>";

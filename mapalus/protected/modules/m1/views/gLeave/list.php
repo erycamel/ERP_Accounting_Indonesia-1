@@ -9,8 +9,9 @@ $this->menu=array(
 );
 
 
-$this->menu1=gLeave::getTopUpdated();
-$this->menu2=gLeave::getTopCreated();
+//$this->menu1=gLeave::getTopUpdated();
+//$this->menu2=gLeave::getTopCreated();
+$this->menu5=array('Leave');
 
 ?>
 

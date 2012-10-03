@@ -35,9 +35,11 @@ class BootCollapse extends CWidget
 	 */
 	public $events = array();
 	/**
-	 * @var array the HTML attributes for the widget container.
-	 */
+	* @var array the HTML attributes for the widget container.
+	*/
 	public $htmlOptions = array();
+
+	private static $_containerId = 0;
 
 	/**
 	 * Initializes the widget.
@@ -75,6 +77,16 @@ class BootCollapse extends CWidget
 			$handler = CJavaScript::encode($handler);
 			$cs->registerScript(__CLASS__.'#'.$id.'_'.$name, "jQuery('#{$id}').on('{$name}', {$handler});");
 		}
+	}
+
+	/**
+	 * Returns the next collapse container ID.
+	 * @return string the id
+	 * @static
+	 */
+	public static function getNextContainerId()
+	{
+		return 'collapse_'.self::$_containerId++;
 	}
 }
 

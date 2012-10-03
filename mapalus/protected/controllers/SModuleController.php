@@ -2,7 +2,8 @@
 
 class SModuleController extends Controller
 {
-	public $layout='//layouts/column2';
+	//public $layout='//layouts/column2';
+	public $layout='//layouts/column3module';
 
 	public function filters()
 	{
@@ -93,4 +94,44 @@ class SModuleController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionAjaxFillTree()
+	{
+		if (!Yii::app()->request->isAjaxRequest) {
+			exit();
+		}
+		$parentId = 0;
+		if (isset($_GET['root']) && $_GET['root'] !== 'source') {
+			$parentId = (int) $_GET['root'];
+		}
+		$req = Yii::app()->db->createCommand(
+				"SELECT m1.id, m1.title AS text, m2.id IS NOT NULL AS hasChildren "
+				. "FROM s_module AS m1 LEFT JOIN s_module AS m2 ON m1.id=m2.parent_id "
+				. "WHERE m1.parent_id <=> $parentId "
+				. "GROUP BY m1.id ORDER BY m1.sort ASC"
+		);
+		$children = $req->queryAll();
+
+		$treedata=array();
+		foreach($children as $child){
+			$options=array('href'=>Yii::app()->createUrl('sModule/view',array('id'=>$child['id'])),'id'=>$child['id'],'class'=>'treenode');
+			$nodeText = CHtml::openTag('a', $options);
+			$nodeText.= $child['text'];
+			$nodeText.= CHtml::closeTag('a')."\n";
+			$child['text'] = $nodeText;
+			$treedata[]=$child;
+		}
+		//$children = $this->createLinks($children);
+
+		echo str_replace(
+				'"hasChildren":"0"',
+				'"hasChildren":false',
+				//CTreeView::saveDataAsJson($children)
+				CTreeView::saveDataAsJson($treedata)
+		);
+		exit();
+	}
+
+	
+	
 }

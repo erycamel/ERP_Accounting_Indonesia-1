@@ -306,7 +306,23 @@ class aOrganization extends BaseModel
 		foreach($models as $model)
 			$_items[$model->getparent->sort ." ". $model->getparent->name][$model->id]=$model->name;
 
-		return $_items;
+		//HOLDING
+		$criteria=new CDbCriteria;
+		$criteria->order='sort';
+		$criteria->compare('parent_id',971);
+		$models=self::model()->findAll($criteria);
+		foreach($models as $model)
+			$_items[$model->getparent->sort ." ". $model->getparent->name][$model->id]=$model->name;
+
+		//OLD_PROJECT
+		$criteria=new CDbCriteria;
+		$criteria->order='sort';
+		$criteria->compare('parent_id',1690);
+		$models=self::model()->findAll($criteria);
+		foreach($models as $model)
+			$_items[$model->getparent->sort ." ". $model->getparent->name][$model->id]=$model->name;
+
+			return $_items;
 	}
 
 	public static function deptByCompany($id=0)

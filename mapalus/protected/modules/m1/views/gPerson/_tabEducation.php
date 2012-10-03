@@ -12,14 +12,9 @@
 				'city',
 				'interest',
 				'graduate',
-				'country',
-				'institution',
-				//'ipk',
-				//array(
-				//		'class'=>'bootstrap.widgets.BootButtonColumn',
-				//		'template'=>'{delete}',
-				//		'deleteButtonUrl'=>'Yii::app()->createUrl("m1/gPerson/deleteEducation",array("id"=>$data->id))',
-				//),
+				//'country',
+				//'institution',
+				'ipk',
 				array(
 						'class'=>'EJuiDlgsColumn',
 						'template'=>'{update}{delete}',
@@ -30,14 +25,8 @@
 								'actionParams' => array('id'=>'$data->id'),
 								'dialogTitle' => 'Update Education',
 								'dialogWidth' => 512, //override the value from the dialog config
-								'dialogHeight' => 600,
+								'dialogHeight' => 530
 						),
 				),
 		),
 )); ?>
-
-<div class="page-header">
-	<h3>New Education</h3>
-</div>
-
-<?php echo $this->renderPartial('_formEducation',array('model'=>$modelEducation)); ?>

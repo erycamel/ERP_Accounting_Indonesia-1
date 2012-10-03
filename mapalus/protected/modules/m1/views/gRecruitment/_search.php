@@ -12,17 +12,17 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'for_position'); ?>
-		<?php echo $form->textField($model,'for_position',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'for_position',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'for_project'); ?>
-		<?php echo $form->textField($model,'for_project',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'for_project',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'candidate_name'); ?>
-		<?php echo $form->textField($model,'candidate_name',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'candidate_name',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -32,12 +32,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'quick_background'); ?>
-		<?php echo $form->textField($model,'quick_background',array('size'=>60,'maxlength'=>300)); ?>
+		<?php echo $form->textField($model,'quick_background',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'work_experience'); ?>
-		<?php echo $form->textField($model,'work_experience',array('size'=>60,'maxlength'=>1500)); ?>
+		<?php echo $form->textField($model,'work_experience',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -62,7 +62,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'followup_remark'); ?>
-		<?php echo $form->textField($model,'followup_remark',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'followup_remark',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -72,12 +72,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'interview1_by'); ?>
-		<?php echo $form->textField($model,'interview1_by',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'interview1_by',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'interview1_result'); ?>
-		<?php echo $form->textField($model,'interview1_result',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'interview1_result',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -87,12 +87,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'interview2_by'); ?>
-		<?php echo $form->textField($model,'interview2_by',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'interview2_by',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'interview2_result'); ?>
-		<?php echo $form->textField($model,'interview2_result',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'interview2_result',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -102,17 +102,17 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'interview3_by'); ?>
-		<?php echo $form->textField($model,'interview3_by',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'interview3_by',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'interview3_result'); ?>
-		<?php echo $form->textField($model,'interview3_result',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'interview3_result',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'review'); ?>
-		<?php echo $form->textField($model,'review',array('size'=>60,'maxlength'=>250)); ?>
+		<?php echo $form->textField($model,'review',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">
@@ -122,7 +122,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'general_remark'); ?>
-		<?php echo $form->textField($model,'general_remark',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'general_remark',array('class'=>'span3')); ?>
 	</div>
 
 	<div class="row">

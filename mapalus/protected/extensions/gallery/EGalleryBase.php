@@ -37,7 +37,7 @@ class EGalleryBase extends CWidget {
 	/**
 	 * @var boolean show the navigation menu
 	 */
-	public $showNav = true;
+    public $showNav = true;
 
 	/**
 	 * {@link http://www.webmaster-toolkit.com/mime-types.shtml Mime types} to display.
@@ -51,52 +51,52 @@ class EGalleryBase extends CWidget {
 	/**
 	 * @var boolean 'false' will use a generic icon instead
 	 */
-	public $createThumbnails = true;
+    public $createThumbnails = true;
 
 	/**
 	 * @var integer the width of the generated thumbnails
 	 */
-	public $thumbnailWidth = 128;
+    public $thumbnailWidth = 128;
 
 	/**
 	 * @var integer the height of the generated thumbnails
 	 */
-	public $thumbnailHeight = 128;
+    public $thumbnailHeight = 128;
 
 	/**
 	 * @var boolean album folders that are in a format parseable by {@link http://uk3.php.net/strtotime strtotime} should be displayed as a formated date
 	 */
-	public $displayFoldersAsDates = true;
+    public $displayFoldersAsDates = true;
 
 	/**
 	 * @var string the {@link http://uk3.php.net/manual/en/function.date.php date format} used for outputting
 	 */
-	public $dateFormat = 'jS M Y';
+    public $dateFormat = 'jS M Y';
 
 	/**
 	 * @var integer the number of images to show on each page
 	 */
-	public $imagesPerPage = 20;
+    public $imagesPerPage = 20;
 
 	/**
 	 * @var integer the number of images to show on each row (0 for unlimited)
 	 */
-	public $imagesPerRow = 4;
+    public $imagesPerRow = 4;
 
 	/**
 	 * @var integer the number of albums to show on each page
 	 */
-	public $albumsPerPage = 20;
+    public $albumsPerPage = 20;
 
 	/**
 	 * @var integer the number of albums to show on each row (0 for unlimited)
 	 */
-	public $albumsPerRow = 0;
+    public $albumsPerRow = 0;
 
 	/**
 	 * @var string sort order asc/desc
 	 */
-	public $sort_order = 'desc';
+    public $sort_order = 'desc';
 
 	/**
 	 * @var string the currently requested album directory
@@ -149,18 +149,18 @@ class EGalleryBase extends CWidget {
 			$this->_realpath = realpath(getcwd().DIRECTORY_SEPARATOR.$this->path);
 		}
 		if($this->path != '' && file_exists($this->_realpath)):
-		$cs=Yii::app()->clientScript;
-		$am = Yii::app()->getAssetManager();
+			$cs=Yii::app()->clientScript;
+			$am = Yii::app()->getAssetManager();
 
-		$this->_folderImage = $am->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'folder.png');
-		$this->_blankImage = $am->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'image.png');
-		$this->_cssFile = $am->publish($this->generateCSS(dirname(__FILE__).DIRECTORY_SEPARATOR.'css'));
-		$cs->registerCssFile($this->_cssFile);
+			$this->_folderImage = $am->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'folder.png');
+			$this->_blankImage = $am->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'image.png');
+			$this->_cssFile = $am->publish($this->generateCSS(dirname(__FILE__).DIRECTORY_SEPARATOR.'css'));
+			$cs->registerCssFile($this->_cssFile);
 
-		parent::init();
+			parent::init();
 		else:
-		Yii::log('Path to gallery is not specified or invalid: '.$this->path, 'info', 'app.extensions.EGallery');
-		throw new CException('Path to gallery is not specified or invalid.');
+			Yii::log('Path to gallery is not specified or invalid: '.$this->path, 'info', 'app.extensions.EGallery');
+			throw new CException('Path to gallery is not specified or invalid.');
 		endif;
 	}
 
@@ -173,42 +173,42 @@ class EGalleryBase extends CWidget {
 	 */
 	protected function getAlbums()
 	{
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_albums'):false;
-		//if($_cache!==false && json_decode($_cache, true)!==null):
-		//	return json_decode($_cache, true);
-		//else:
-		function cmp($a, $b)
-		{
-			return strcmp($a['name'], $b['name']);
-		}
-
-		$goodfiles = array();
-
-		$albums = new DirectoryIterator($this->_realpath);
-		foreach ($albums as $album) {
-			if ($album->isDir() && !$album->isDot() && substr($album->getFilename(), 0, 1) != '.') {
-				$thumb = $this->getImages($album->getFilename(), true);
-				$goodfiles[] = array('title'=>$this->getTitle($album->getFilename()),
-						'name'=>$album->getFilename(),
-						'count'=>$this->getImageCount($album->getFilename()),
-						'thumb'=>($thumb[0]['thumb'] == $this->_blankImage)?$this->_folderImage:$thumb[0]['thumb'],
-				);
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_albums'):false;
+		if($_cache!==false && json_decode($_cache, true)!==null):
+			return json_decode($_cache, true);
+		else:
+			function cmp($a, $b)
+			{
+				return strcmp($a['name'], $b['name']);
 			}
-		}
 
-		usort($goodfiles, 'cmp');
-		if($this->sort_order == 'desc')
-		{
-			$goodfiles = array_reverse($goodfiles);
-		}
+			$goodfiles = array();
 
-		if(isset(Yii::app()->cache))
-		{
-			Yii::app()->cache->set('EGallery_'.$this->path.'_albums', json_encode($goodfiles));
-		}
+			$albums = new DirectoryIterator($this->_realpath);
+			foreach ($albums as $album) {
+				if ($album->isDir() && !$album->isDot() && substr($album->getFilename(), 0, 1) != '.') {
+					$thumb = $this->getImages($album->getFilename(), true);
+					$goodfiles[] = array('title'=>$this->getTitle($album->getFilename()),
+									'name'=>$album->getFilename(),
+									'count'=>$this->getImageCount($album->getFilename()),
+									'thumb'=>($thumb[0]['thumb'] == $this->_blankImage)?$this->_folderImage:$thumb[0]['thumb'],
+								);
+				}
+			}
 
-		return $goodfiles;
-		//endif;
+			usort($goodfiles, 'cmp');
+			if($this->sort_order == 'desc')
+			{
+				$goodfiles = array_reverse($goodfiles);
+			}
+
+			if(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$this->path.'_albums', json_encode($goodfiles));
+			}
+
+			return $goodfiles;
+		endif;
 	}
 
 	/**
@@ -219,31 +219,31 @@ class EGalleryBase extends CWidget {
 	 */
 	protected function getTitle($name)
 	{
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$name.'_title'):false;
-		//if($_cache!==false):
-		//	return $_cache;
-		//else:
-		$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR;
-		$file = $_realpath.'description.txt';
-		if(file_exists($file))
-		{
-			$name = $this->readDescription($_realpath.'description.txt', true);
-		}
-		elseif($this->displayFoldersAsDates)
-		{
-			if(strtotime($name)!==false || strtotime($name)!==-1)
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$name.'_title'):false;
+		if($_cache!==false):
+			return $_cache;
+		else:
+			$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR;
+			$file = $_realpath.'description.txt';
+			if(file_exists($file))
 			{
-				$name = date($this->dateFormat, strtotime($name));
+				$name = $this->readDescription($_realpath.'description.txt', true);
 			}
-		}
+			elseif($this->displayFoldersAsDates)
+			{
+				if(strtotime($name)!==false || strtotime($name)!==-1)
+				{
+					$name = date($this->dateFormat, strtotime($name));
+				}
+			}
 
-		if(isset(Yii::app()->cache))
-		{
-			Yii::app()->cache->set('EGallery_'.$this->path.'_'.$name.'_title', $name);
-		}
+			if(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$this->path.'_'.$name.'_title', $name);
+			}
 
-		return $name;
-		//endif;
+			return $name;
+		endif;
 	}
 
 	/**
@@ -266,66 +266,66 @@ class EGalleryBase extends CWidget {
 		}
 		$path = preg_replace('~[^a-z0-9-_ ()\./]~i', '', $path);
 
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_'.$single.'_images'):false;
-		//if($_cache!==false && json_decode($_cache, true)!==null):
-		//	return json_decode($_cache, true);
-		//else:
-		$_needsThumbs = array();
-		$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_'.$single.'_images'):false;
+		if($_cache!==false && json_decode($_cache, true)!==null):
+			return json_decode($_cache, true);
+		else:
+			$_needsThumbs = array();
+			$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
 
-		if (!file_exists($_realpath))
-		{
-			Yii::log('Invalid path specified for getImages(): '.$path, 'info', 'app.extensions.EGallery');
-			return $_images;
-		}
+			if (!file_exists($_realpath))
+			{
+				Yii::log('Invalid path specified for getImages(): '.$path, 'info', 'app.extensions.EGallery');
+				return $_images;
+			}
 
-		$images = new DirectoryIterator($_realpath);
-		if(Yii::app()->getUrlManager()->getUrlFormat() == 'path' && !strstr($this->path,str_ireplace('index.php','',$_SERVER['PHP_SELF'])))
-		{
-			$this->path = str_ireplace('index.php','',$_SERVER['PHP_SELF']).$this->path;
-		}
-		foreach ($images as $image) {
-			if ($image->isFile() && $image->isReadable() && preg_match("/\.(jpe?g|gif|png)$/i",$image->getFilename())) {
-				$mime = getimagesize($image->getPathname());
-				$mime = $mime['mime'];
+			$images = new DirectoryIterator($_realpath);
+			if(Yii::app()->getUrlManager()->getUrlFormat() == 'path' && !strstr($this->path,str_ireplace('index.php','',$_SERVER['PHP_SELF'])))
+			{
+				$this->path = str_ireplace('index.php','',$_SERVER['PHP_SELF']).'../../../'.$this->path;
+			}
+			foreach ($images as $image) {
+				if ($image->isFile() && $image->isReadable() && preg_match("/\.(jpe?g|gif|png)$/i",$image->getFilename())) {
+					$mime = getimagesize($image->getPathname());
+					$mime = $mime['mime'];
 
-				if(in_array($mime,$this->mimeTypes))
-				{
-					if(file_exists($_realpath.DIRECTORY_SEPARATOR.'thumbs'.DIRECTORY_SEPARATOR.$image->getFilename())){
-						$thumb = Yii::app()->baseUrl.'/shareimages/photo/'.$path.'/'.'thumbs'.'/'.$image->getFilename();
-					}
-					else
+					if(in_array($mime,$this->mimeTypes))
 					{
-						$thumb = $this->_blankImage;
-						$_needsThumbs[] = array('folder'=>Yii::app()->baseUrl.'/shareimages/photo/'.$path.'/'.'/thumbs','image'=>$image->getFilename());
-					}
+						if(file_exists($_realpath.DIRECTORY_SEPARATOR.'thumbs'.DIRECTORY_SEPARATOR.$image->getFilename())){
+							$thumb = $this->path.'/'.$path.'/'.'thumbs'.'/'.$image->getFilename();
+						}
+						else
+						{
+							$thumb = $this->_blankImage;
+							$_needsThumbs[] = array('folder'=>$_realpath.DIRECTORY_SEPARATOR.'thumbs','image'=>$image->getFilename());
+						}
 
-					$pathinfo = pathinfo($image->getPathname());
-					$_images[] = array(
-							'url' => Yii::app()->baseUrl.'/shareimages/photo/'.$path.'/'.$image->getFilename(),
+						$pathinfo = pathinfo($image->getPathname());
+						$_images[] = array(
+							'url' => $this->path.'/'.$path.'/'.$image->getFilename(),
 							'thumb' => $thumb,
 							'alt' => $pathinfo['filename'],
-					);
+						);
 
-					if($single)
-					{
-						break;
+						if($single)
+						{
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		//if(!empty($_needsThumbs))
-		//{
-		$this->generateThumbnails($_needsThumbs);
-		//}
-		//elseif(isset(Yii::app()->cache))
-		//{
-		//Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_'.$single.'_images', json_encode($_images));
-		//}
+			if(!empty($_needsThumbs))
+			{
+				$this->generateThumbnails($_needsThumbs);
+			}
+			elseif(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_'.$single.'_images', json_encode($_images));
+			}
 
-		return $_images;
-		//endif;
+			return $_images;
+		endif;
 	}
 
 	/**
@@ -344,9 +344,9 @@ class EGalleryBase extends CWidget {
 		{
 			/*
 			 * We need to make sure we are using the right PHP version
-			* (problems with shared hosts that have PHP4 and PHP5 installed,
-					* but PHP4 set as default.
-					*/
+			 * (problems with shared hosts that have PHP4 and PHP5 installed,
+			 * but PHP4 set as default.
+			 */
 			$phpPaths = array('php','/usr/local/bin/php','/usr/local/php5/bin/php','/usr/bin/php','/usr/bin/php5');
 			foreach($phpPaths as $path)
 			{
@@ -382,43 +382,43 @@ class EGalleryBase extends CWidget {
 		}
 		$path = preg_replace('~[^a-z0-9-_ ()\./]~i', '', $path);
 
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_numImages'):false;
-		//if($_cache!==false):
-		//	return $_cache;
-		//else:
-		$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_numImages'):false;
+		if($_cache!==false):
+			return $_cache;
+		else:
+			$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
 
-		if (!file_exists($_realpath))
-		{
-			Yii::log('Invalid path specified for getImages(): '.$path, 'info', 'app.extensions.EGallery');
-			return $_numImages;
-		}
+			if (!file_exists($_realpath))
+			{
+				Yii::log('Invalid path specified for getImages(): '.$path, 'info', 'app.extensions.EGallery');
+				return $_numImages;
+			}
 
-		$_numImages = 0;
-		$images = new DirectoryIterator($_realpath);
-		if(Yii::app()->getUrlManager()->getUrlFormat() == 'path' && !strstr($this->path,str_ireplace('index.php','',$_SERVER['PHP_SELF'])))
-		{
-			$this->path = str_ireplace('index.php','',$_SERVER['PHP_SELF']).$this->path;
-		}
-		foreach ($images as $image) {
-			if ($image->isFile() && $image->isReadable() && preg_match("/\.(jpe?g|gif|png)$/i",$image->getFilename())) {
-				$mime = getimagesize($image->getPathname());
-				$mime = $mime['mime'];
+			$_numImages = 0;
+			$images = new DirectoryIterator($_realpath);
+			if(Yii::app()->getUrlManager()->getUrlFormat() == 'path' && !strstr($this->path,str_ireplace('index.php','',$_SERVER['PHP_SELF'])))
+			{
+				$this->path = str_ireplace('index.php','',$_SERVER['PHP_SELF']).$this->path;
+			}
+			foreach ($images as $image) {
+				if ($image->isFile() && $image->isReadable() && preg_match("/\.(jpe?g|gif|png)$/i",$image->getFilename())) {
+					$mime = getimagesize($image->getPathname());
+					$mime = $mime['mime'];
 
-				if(in_array($mime,$this->mimeTypes))
-				{
-					$_numImages++;
+					if(in_array($mime,$this->mimeTypes))
+					{
+						$_numImages++;
+					}
 				}
 			}
-		}
 
-		if(isset(Yii::app()->cache))
-		{
-			Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_numImages', $_numImages);
-		}
+			if(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_numImages', $_numImages);
+			}
 			
-		return $_numImages;
-		//endif;
+			return $_numImages;
+		endif;
 	}
 
 	/**
@@ -457,36 +457,36 @@ class EGalleryBase extends CWidget {
 			return $_details;
 		}
 
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_details'):false;
-		//if($_cache!==false && json_decode($_cache, true)!==null):
-		//	return json_decode($_cache, true);
-		//else:
-		$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$this->path.'_'.$path.'_details'):false;
+		if($_cache!==false && json_decode($_cache, true)!==null):
+			return json_decode($_cache, true);
+		else:
+			$_realpath = $this->_realpath.DIRECTORY_SEPARATOR.$path;
 
-		if (!file_exists($_realpath))
-		{
+			if (!file_exists($_realpath))
+			{
+				return $_details;
+			}
+
+			$file = $_realpath.DIRECTORY_SEPARATOR.'description.txt';
+			if(!file_exists($file))
+			{
+				$_details['name'] = $path;
+				$_details['description'] = '';
+
+				return $_details;
+			}
+
+			$_details['name'] = $this->readDescription($file, true);
+			$_details['description'] = $this->readDescription($file);
+
+			if(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_details', json_encode($_details));
+			}
+
 			return $_details;
-		}
-
-		$file = $_realpath.DIRECTORY_SEPARATOR.'description.txt';
-		if(!file_exists($file))
-		{
-			$_details['name'] = $path;
-			$_details['description'] = '';
-
-			return $_details;
-		}
-
-		$_details['name'] = $this->readDescription($file, true);
-		$_details['description'] = $this->readDescription($file);
-
-		if(isset(Yii::app()->cache))
-		{
-			Yii::app()->cache->set('EGallery_'.$this->path.'_'.$path.'_details', json_encode($_details));
-		}
-
-		return $_details;
-		//endif;
+		endif;
 	}
 
 	/**
@@ -500,37 +500,37 @@ class EGalleryBase extends CWidget {
 	 */
 	protected function readDescription($file, $title=false)
 	{
-		//$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$file.'_'.$title.'_description'):false;
-		//if($_cache!==false):
-		//	return $_cache;
-		//else:
-		$i = 1;
-		$fp = fopen($file, 'r');
+		$_cache=(isset(Yii::app()->cache))?Yii::app()->cache->get('EGallery_'.$file.'_'.$title.'_description'):false;
+		if($_cache!==false):
+			return $_cache;
+		else:
+			$i = 1;
+			$fp = fopen($file, 'r');
 
-		while (!feof($fp))
-		{
-			$buffer = fgets($fp, 10240);
-			if($i == 1)
+			while (!feof($fp))
 			{
-				if($title)
+				$buffer = fgets($fp, 10240);
+				if($i == 1)
 				{
-					return htmlentities($buffer, ENT_QUOTES);
+					if($title)
+					{
+						return htmlentities($buffer, ENT_QUOTES);
+					}
+					$buffer = '';
 				}
-				$buffer = '';
+				$i++;
 			}
-			$i++;
-		}
 
-		$parser=new CMarkdownParser;
-		$buffer=$parser->safeTransform($buffer);
+			$parser=new CMarkdownParser;
+			$buffer=$parser->safeTransform($buffer);
 
-		if(isset(Yii::app()->cache))
-		{
-			Yii::app()->cache->set('EGallery_'.$file.'_'.$title.'_description', $buffer);
-		}
+			if(isset(Yii::app()->cache))
+			{
+				Yii::app()->cache->set('EGallery_'.$file.'_'.$title.'_description', $buffer);
+			}
 
-		return $buffer;
-		//endif;
+			return $buffer;
+		endif;
 	}
 
 	/**
@@ -539,10 +539,10 @@ class EGalleryBase extends CWidget {
 	protected function generateCSS($folder)
 	{
 		$contents = '/*
-		* This file is automatically generated. You should edit gallery.css.php instead.
-		*/
+ * This file is automatically generated. You should edit gallery.css.php instead.
+ */
 
-		';
+';
 
 		if (is_file($folder.DIRECTORY_SEPARATOR.'gallery.css.php')) {
 			ob_start();

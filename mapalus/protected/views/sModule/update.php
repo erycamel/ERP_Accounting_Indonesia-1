@@ -5,6 +5,11 @@ $this->breadcrumbs=array(
 		'Update',
 );
 
+$this->menu=array(
+		array('label'=>'Home', 'url'=>array('/sModule')),
+		array('label'=>'View', 'url'=>array('view','id'=>$model->id)),
+);
+
 ?>
 
 <div class="page-header">

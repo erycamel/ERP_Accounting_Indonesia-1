@@ -1,12 +1,5 @@
-
-<?php echo CHtml::link('Update',$this->createUrl('update',array('id'=>$model->id)),array('class'=>'btn btn-mini')); ?>
-
-
-<br />
-<br />
-
 <?php 
-$this->widget('bootstrap.widgets.BootDetailView', array(
+		$this->widget('bootstrap.widgets.BootDetailView', array(
 		//$this->widget('ext.XDetailView', array(
 		//		'ItemColumns' => 2,
 		'data'=>$model,
@@ -32,25 +25,34 @@ $this->widget('bootstrap.widgets.BootDetailView', array(
 				//		'label'=>'Marital Status',
 				//		'value'=>$model->maritalstatus->name,
 				//),
-				'address1',
+				'blood_id',
+		array(
+				'header'=>'Address and Domisili',
+		),
+		'address1',
 		'address2',
 		'address3',
 		'pos_code',
-		array(
-				'header'=>'Other Information',
-		),
 		'identity_number',
 		'identity_valid',
 		'identity_address1',
 		'identity_address2',
 		'identity_address3',
 		'identity_pos_code',
+		array(
+				'header'=>'Contact',
+		),
 		'email',
 		'email2',
-		'blood_id',
 		'home_phone',
 		'handphone',
 		'handphone2',
+		array(
+				'header'=>'Bank Information',
+		),
+		'account_number',
+		'account_name',
+		'bank_name',
 ),
 ));
 

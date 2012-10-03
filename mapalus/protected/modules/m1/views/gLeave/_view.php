@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="span12">
 		<h3>
-			<?php echo CHtml::link(CHtml::encode($data->vc_psnama),array('view','id'=>$data->id)); ?>
+			<?php echo CHtml::link(CHtml::encode($data->employee_name),array('view','id'=>$data->id)); ?>
 		</h3>
 	</div>
 </div>

@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 if ($argc === 4 && strstr($argv[0], basename(__FILE__))) {
@@ -9,7 +8,7 @@ if ($argc === 4 && strstr($argv[0], basename(__FILE__))) {
 		// Either no thumbnails need to be created or a wrong directory has been supplied
 		exit;
 	}
-
+	
 	include(realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR.'EGalleryThumbGenerator.php');
 
 	$generator = new EGalleryThumbGenerator;
@@ -21,9 +20,9 @@ if ($argc === 4 && strstr($argv[0], basename(__FILE__))) {
 	{
 		/*
 		 * Can we get some sort of feedback to the user here?
-		* Possibly so that we can display a progress bar in the management section.
-		* Probably have to write $i to a file to be read by the main script.
-		*/
+		 * Possibly so that we can display a progress bar in the management section.
+		 * Probably have to write $i to a file to be read by the main script.
+		 */
 	}
 
 	exit;

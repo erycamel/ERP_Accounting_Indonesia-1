@@ -22,7 +22,7 @@ class SParameterController extends Controller
 			$model->attributes=$_POST['sParameter'];
 			if($model->save()) {
 				Yii::app()->user->setFlash('success','<strong>Great!</strong> data has been saved successfully');
-				$this->redirect(array('/sParameter','type'=>$type));
+				$this->redirect(array('/sParameter/index','type'=>$type));
 			}
 		}
 

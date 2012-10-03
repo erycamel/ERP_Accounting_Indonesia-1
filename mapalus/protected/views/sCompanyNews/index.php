@@ -7,9 +7,13 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create SCompanyNews', 'url'=>array('create')),
-	array('label'=>'Manage SCompanyNews', 'url'=>array('admin')),
+	array('label'=>'Home', 'url'=>array('/site/login')),
 );
+
+$this->menu1=sCompanyNews::getTopUpdated();
+$this->menu2=sCompanyNews::getTopCreated();
+$this->menu5=array('Company News');
+
 ?>
 
 <div class="page-header">

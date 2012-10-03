@@ -9,8 +9,8 @@ $this->menu=array(
 );
 
 
-$this->menu1=gLeave::getTopUpdated();
-$this->menu2=gLeave::getTopCreated();
+//$this->menu1=gLeave::getTopUpdated();
+//$this->menu2=gLeave::getTopCreated();
 $this->menu5=array('Leave');
 
 ?>
@@ -32,19 +32,17 @@ $this->menu5=array('Leave');
 <div class="page-header">
 	<h1>
 		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icon/user.png') ?>
-		<?php echo $model->vc_psnama; ?>
+		<?php echo $model->employee_name; ?>
 	</h1>
 </div>
 
 
 <?php
-$this->widget('bootstrap.widgets.BootTabbable', array(
+$this->widget('bootstrap.widgets.BootTabs', array(
 		'type'=>'tabs', // 'tabs' or 'pills'
 		'tabs'=>array(
-				array('label'=>'List Cuti','content'=>$this->renderPartial("_tabList", array("model"=>$model), true),'active'=>true),
+				array('label'=>'Leave History','content'=>$this->renderPartial("_tabList", array("model"=>$model), true),'active'=>true),
 				array('label'=>'Detail','content'=>$this->renderPartial("/gPerson/_tabDetail", array("model"=>$model), true)),
-				//array('label'=>'Sub Account','content'=>$this->renderPartial("_tabSub", array("model"=>$model), true)),
-				//array('label'=>'Linked Module','content'=>$this->renderPartial("_tabModule", array("model"=>$model), true)),
 		),
 ));
 ?>

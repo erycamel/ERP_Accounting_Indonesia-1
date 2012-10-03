@@ -14,18 +14,18 @@ class Bootstrap extends CApplicationComponent
 {
 	// Bootstrap plugins.
 	const PLUGIN_ALERT = 'alert';
-	const PLUGIN_BUTTON = 'button';
-	const PLUGIN_CAROUSEL = 'carousel';
-	const PLUGIN_COLLAPSE = 'collapse';
-	const PLUGIN_DROPDOWN = 'dropdown';
-	const PLUGIN_MODAL = 'modal';
-	const PLUGIN_POPOVER = 'popover';
-	const PLUGIN_SCROLLSPY = 'scrollspy';
-	const PLUGIN_TAB = 'tab';
-	const PLUGIN_TOOLTIP = 'tooltip';
-	const PLUGIN_TRANSITION = 'transition';
-	const PLUGIN_TYPEAHEAD = 'typeahead';
-	// todo: add the affix plugin in version 2.1.0
+    const PLUGIN_BUTTON = 'button';
+    const PLUGIN_CAROUSEL = 'carousel';
+    const PLUGIN_COLLAPSE = 'collapse';
+    const PLUGIN_DROPDOWN = 'dropdown';
+    const PLUGIN_MODAL = 'modal';
+    const PLUGIN_POPOVER = 'popover';
+    const PLUGIN_SCROLLSPY = 'scrollspy';
+    const PLUGIN_TAB = 'tab';
+    const PLUGIN_TOOLTIP = 'tooltip';
+    const PLUGIN_TRANSITION = 'transition';
+    const PLUGIN_TYPEAHEAD = 'typeahead';
+    // todo: add the affix plugin in version 2.1.0
 
 	/**
 	 * @var boolean whether to register the Bootstrap core CSS (bootstrap.min.css).
@@ -92,7 +92,7 @@ class Bootstrap extends CApplicationComponent
 		if ($this->enableJS !== false)
 			$this->registerCoreScripts();
 
-		parent::init();
+        parent::init();
 	}
 
 	/**
@@ -315,9 +315,9 @@ class Bootstrap extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the URL to the published assets folder.
-	 * @return string the URL
-	 */
+	* Returns the URL to the published assets folder.
+	* @return string the URL
+	*/
 	protected function getAssetsUrl()
 	{
 		if (isset($this->_assetsUrl))
@@ -330,12 +330,12 @@ class Bootstrap extends CApplicationComponent
 		}
 	}
 
-	/**
-	 * Returns the extension version number.
-	 * @return string the version
-	 */
-	public function getVersion()
-	{
-		return '1.0.0';
-	}
+    /**
+     * Returns the extension version number.
+     * @return string the version
+     */
+    public function getVersion()
+    {
+        return '1.0.0';
+    }
 }

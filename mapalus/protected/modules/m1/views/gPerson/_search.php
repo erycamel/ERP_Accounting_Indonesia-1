@@ -2,6 +2,7 @@
 
 	<?php $form=$this->beginWidget('bootstrap.widgets.BootActiveForm',array(
 			//'action'=>Yii::app()->createUrl($this->route),
+			//'action'=>Yii::app()->createUrl('/m1/gPerson/view',array("id"=> *_PARAMETER_*),
 			'action'=>Yii::app()->createUrl('/m1/gPerson/index'),
 			'method'=>'get',
 			'id'=>'searchForm',
@@ -19,11 +20,11 @@
 					'focus'=> 'js:function( event, ui ) {
 					$("#'.CHtml::activeId($model,'employee_name').'").val(ui.item.label);
 					return false;
-}',
+					}',
 					'select'=> 'js:function( event, ui ) {
 					$("#searchForm").submit();
 					return false;
-}',
+					}',
 			),
 			'htmlOptions'=>array(
 					'class'=>'input-medium',

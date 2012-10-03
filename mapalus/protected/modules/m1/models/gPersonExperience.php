@@ -40,7 +40,8 @@ class gPersonExperience extends BaseModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array('parent_id', 'numerical', 'integerOnly'=>true),
+				array('company_name,job_title', 'required'),
+				array('parent_id,year_length,month_length', 'numerical', 'integerOnly'=>true),
 				array('company_name', 'length', 'max'=>300),
 				array('industries', 'length', 'max'=>75),
 				array('start_date, end_date', 'length', 'max'=>50),
@@ -74,6 +75,8 @@ class gPersonExperience extends BaseModel
 				'industries' => 'Industries',
 				'start_date' => 'Start Date',
 				'end_date' => 'End Date',
+				'year_length' => 'Year Length',
+				'month_length' => 'Month Length',
 				'job_title' => 'Job Title',
 		);
 	}

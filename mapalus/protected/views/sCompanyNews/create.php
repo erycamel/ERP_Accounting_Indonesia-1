@@ -8,11 +8,20 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List SCompanyNews', 'url'=>array('index')),
-	array('label'=>'Manage SCompanyNews', 'url'=>array('admin')),
+	array('label'=>'Home', 'url'=>array('/sCompanyNews')),
 );
+
+$this->menu1=sCompanyNews::getTopUpdated();
+$this->menu2=sCompanyNews::getTopCreated();
+
 ?>
 
-<h1>Create SCompanyNews</h1>
+<div class="page-header">
+	<h1>
+		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/icon/preferences_desktop_notification.png') ?>
+		Create
+	</h1>
+</div>
+
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

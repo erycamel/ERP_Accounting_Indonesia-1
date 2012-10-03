@@ -23,9 +23,15 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 
 <div class="row-fluid">
 	<div class="span6">
+	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+        'legend'=>'Basic Info'
+    )); ?>   
+		
+		<?php echo $form->textFieldRow($model,'employee_code',array('class'=>'span3','maxlength'=>100)); ?>
+
 		<?php echo $form->textFieldRow($model,'employee_name',array('class'=>'span3','maxlength'=>100)); ?>
 
-		<?php echo $form->textFieldRow($model,'birth_place',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->textFieldRow($model,'birth_place',array('class'=>'span2')); ?>
 
 		<?php echo $form->textFieldRow($model,'birth_date'); ?>
 
@@ -33,17 +39,27 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 
 		<?php echo $form->dropDownListRow($model,'religion_id',sParameter::items("cAgama")); ?>
 
+	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+	
+	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+        'legend'=>'Address'
+    )); ?>   
 		<?php echo $form->textFieldRow($model,'address1',array('class'=>'span4')); ?>
 
 		<?php echo $form->textFieldRow($model,'address2',array('class'=>'span3','maxlength'=>50)); ?>
 
 		<?php echo $form->textFieldRow($model,'address3',array('class'=>'span2','maxlength'=>10)); ?>
 
-		<?php echo $form->textFieldRow($model,'pos_code',array('size'=>5,'maxlength'=>5)); ?>
+		<?php echo $form->textFieldRow($model,'pos_code',array('class'=>'span1')); ?>
 
+	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+	
 	</div>
 	<div class="span6">
-		<?php echo $form->textFieldRow($model,'identity_number',array('size'=>25,'maxlength'=>25)); ?>
+	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+        'legend'=>'Identity'
+    )); ?>   
+		<?php echo $form->textFieldRow($model,'identity_number',array('class'=>'span2')); ?>
 
 		<?php echo $form->textFieldRow($model,'identity_valid'); ?>
 
@@ -53,8 +69,13 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 
 		<?php echo $form->textFieldRow($model,'identity_address3',array('class'=>'span2','maxlength'=>10)); ?>
 
-		<?php echo $form->textFieldRow($model,'identity_pos_code',array('size'=>5,'maxlength'=>5)); ?>
+		<?php echo $form->textFieldRow($model,'identity_pos_code',array('class'=>'span1')); ?>
 
+	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+
+	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+        'legend'=>'Contact'
+    )); ?>   
 		<?php echo $form->textFieldRow($model,'email',array('class'=>'span3','maxlength'=>100)); ?>
 
 		<?php echo $form->textFieldRow($model,'email2',array('class'=>'span3','maxlength'=>100)); ?>
@@ -66,10 +87,20 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 		<?php echo $form->textFieldRow($model,'handphone',array('class'=>'span3','maxlength'=>50)); ?>
 
 		<?php echo $form->textFieldRow($model,'handphone2',array('class'=>'span3','maxlength'=>50)); ?>
+		
+	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
 
-		<?php //echo $form->textFieldRow($model,'userid'); ?>
+	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+        'legend'=>'Bank'
+    )); ?>   
+		<?php echo $form->textFieldRow($model,'account_number',array('class'=>'span3','maxlength'=>50)); ?>
 
-		<?php //echo $form->textFieldRow($model,'t_status'); ?>
+		<?php echo $form->textFieldRow($model,'account_name',array('class'=>'span3','maxlength'=>50)); ?>
+
+		<?php echo $form->textFieldRow($model,'bank_name',array('class'=>'span4','maxlength'=>50)); ?>
+		
+	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+
 	</div>
 </div>
 <div class="row-fluid">

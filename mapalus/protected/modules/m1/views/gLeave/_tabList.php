@@ -6,35 +6,33 @@ $this->widget('bootstrap.widgets.BootDetailView', array(
 		//'ItemColumns' => 3,
 		'data'=>array(
 				'id'=>1,
-				'unit_joindate'=>$model->d_joinunit,
-				'group_joindate'=>$model->d_joingrp,
+				'unit_joindate'=>$model->companyfirst->start_date,
 		),
 		'attributes'=>array(
 				array('name'=>'unit_joindate', 'label'=>'Unit Join Date'),
-				array('name'=>'group_joindate', 'label'=>'Group Join Date'),
 		),
 )); ?>
 
 <?php 
 $this->widget('bootstrap.widgets.BootGridView', array(
 		//$this->widget('ext.groupgridview.GroupGridView', array(
-		//'extraRowColumns' => array('d_cuti'),
+		//'extraRowColumns' => array('start_date'),
 		'id'=>'g-person-grid',
 		'dataProvider'=>GLeave::model()->search($model->id),
 		//'filter'=>$model,
 		'template'=>'{items}',
 		'columns'=>array(
-				//'d_cuti',
-				'd_dari',
-				'd_sampai',
-				'n_jmlhari',
-				'd_h_masuk',
-				'r_cuti',
-				'n_cutiii',
-				'c_masal',
-				'c_pribadi',
-				'n_sisacuti',
-				'c_ganti',
+				//'start_date',
+				'start_date',
+				'end_date',
+				'number_of_day',
+				//'work_date',
+				'leave_reason',
+				'mass_leave',
+				'person_leave',
+				'balance',
+				//'person.leaveBalance.balance',
+				//'replacement',
 				array(
 						'header'=>'State',
 						'value'=>'$data->approved->name',
@@ -65,20 +63,18 @@ $this->widget('bootstrap.widgets.BootGridView', array(
 						),
 
 				),
-				/*
-				 'c_ajukan',
-				'c_ketahui',
-				'c_setuju',
-				'd_ajukan',
-				'd_ketahui',
-				'd_setuju',
-				'userid',
-				'tglmodify',
-				'pt_kodept',
-				'pt_kodeproyek',
-				't_keterangan',
-				'Id_OLD',
-				'tahunke',
-				*/
+				array(
+						'class'=>'EJuiDlgsColumn',
+						'template'=>'{update}{delete}',
+						//'updateButtonImageUrl'=>Yii::Yii::app()->baseUrl .'images/viewdetaildialog.png',
+						'deleteButtonUrl'=>'Yii::app()->createUrl("m1/gLeave/delete",array("id"=>$data->id))',
+						'updateDialog'=>array(
+								'controllerRoute' => 'm1/gLeave/update',
+								'actionParams' => array('id'=>'$data->id'),
+								'dialogTitle' => 'Update Leave',
+								'dialogWidth' => 512, //override the value from the dialog config
+								'dialogHeight' => 530
+						),
+				),
 		),
 )); ?>

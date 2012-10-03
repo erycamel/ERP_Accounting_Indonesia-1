@@ -9,27 +9,25 @@
 	</h3>
 	
 	<div class="row">
-	<div class="span1">
+	<div class="span2">
 		<?php
-			$this->widget('ext.espaceholder.ESpaceHolder', array(
-					'size' => '100x200', // you can also do 300x250
-					'text' => CHtml::encode($data->author_id),
-					'htmlOptions' => array( 'title' => 'image' )
-			));
+			//$this->widget('ext.espaceholder.ESpaceHolder', array(
+			//		'size' => '100x100', // you can also do 300x250
+			//		'text' => CHtml::encode($data->id),
+			//		'htmlOptions' => array( 'title' => 'image' )
+			//));
 		?>
-		TEST
+		<?php	echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/FA-logo-APL-1_ONLY.jpg", CHtml::encode($data->id), array("width"=>"100%")); ?>
 	</div>
-	<div class="span11">
-		<b><?php echo CHtml::encode($data->getAttributeLabel('created_date')); ?>:</b>
-		<?php echo CHtml::encode($data->created_date); ?>
+	<div class="span9">
+		<?php echo date('F j, Y',$data->created_date); ?>
 		<br />
-		<b><?php echo CHtml::encode($data->getAttributeLabel('author_id')); ?>:</b>
-		<?php echo CHtml::encode($data->author_id); ?>
-		<br />
-		<b><?php echo CHtml::encode($data->getAttributeLabel('tags')); ?>:</b>
-		<?php echo CHtml::encode($data->tags); ?>
-		<br />
-		<?php echo CHtml::encode($data->content); ?>
+<?php
+	$this->beginWidget('CMarkdown', array('purifyOutput'=>true));
+	$_desc = $data->content ? substr($data->content,0,420) ."..." : "";
+	echo $_desc ;
+	$this->endWidget();
+?>
 		<br />
 		<br />
 

@@ -16,15 +16,19 @@
 
 		<?php echo $form->errorSummary($model); ?>
 
-		<?php echo $form->textFieldRow($model,'company_name',array('size'=>60,'maxlength'=>300)); ?>
+		<?php echo $form->textFieldRow($model,'company_name',array('class'=>'span3')); ?>
 
-		<?php echo $form->textFieldRow($model,'industries',array('size'=>60,'maxlength'=>75)); ?>
+		<?php echo $form->textFieldRow($model,'industries',array('class'=>'span3')); ?>
 
-		<?php echo $form->textFieldRow($model,'start_date',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'start_date',array('class'=>'span3')); ?>
 
-		<?php echo $form->textFieldRow($model,'end_date',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'end_date',array('class'=>'span3')); ?>
 
-		<?php echo $form->textFieldRow($model,'job_title',array('size'=>60,'maxlength'=>150)); ?>
+		<?php echo $form->textFieldRow($model,'year_length',array('class'=>'span1')); ?>
+
+		<?php echo $form->textFieldRow($model,'month_length',array('class'=>'span1')); ?>
+
+		<?php echo $form->textFieldRow($model,'job_title',array('class'=>'span5')); ?>
 
 		<div class="form-actions">
 			<?php $this->widget('bootstrap.widgets.BootButton', array(

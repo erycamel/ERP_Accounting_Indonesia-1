@@ -13,6 +13,11 @@ $this->menu=array(
 		),
 );
 
+$this->menu1=gPerson::getTopUpdated();
+$this->menu2=gPerson::getTopCreated();
+$this->menu5=array('Person');
+
+
 ?>
 
 <div class="page-header">
