@@ -140,7 +140,7 @@ return array(
 						'allowAutoLogin'=>true,
 				),
 				'db'=>array(
-						'connectionString' => 'mysql:host=localhost;port=3308;dbname=erp_indonesia',
+						'connectionString' => 'mysql:host=localhost;port=3308;dbname=erp_apl',
 						//'connectionString'=>'pgsql:host=localhost;port=5432;dbname=erp_apl',
 						'emulatePrepare' => true,
 						'username' => 'root',
