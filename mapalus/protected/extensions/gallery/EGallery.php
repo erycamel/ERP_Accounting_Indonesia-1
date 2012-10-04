@@ -105,6 +105,16 @@ class EGallery extends EGalleryBase {
 			$pages=new CPagination(count($this->_images));
 			$pages->pageSize=$this->imagesPerPage;
 			$this->_images = parent::splitImages($this->_images,$pages->pageSize);
+
+			Yii::import('ext.prettyPhoto.jqPrettyPhoto');
+		 
+			$options = array(
+				'slideshow'=>5000,
+				'autoplay_slideshow'=>false, 
+				'show_title'=>false
+			);
+			// call addPretty static function
+			jqPrettyPhoto::addPretty('.egallery a',jqPrettyPhoto::PRETTY_GALLERY,jqPrettyPhoto::THEME_FACEBOOK, $options);		
 		}
 
 		$this->render('gallery',array(
@@ -120,6 +130,8 @@ class EGallery extends EGalleryBase {
 			'images'=>$this->_images,
 			)
 		) ;
+		
+		
 	}
 }
 ?>

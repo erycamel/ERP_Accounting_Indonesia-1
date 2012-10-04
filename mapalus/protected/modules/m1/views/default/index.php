@@ -1,3 +1,9 @@
+<?php  
+$baseUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl.'/css/peter_custom.css');
+
+?>
 
 <?php
 $this->breadcrumbs=array(
@@ -9,22 +15,45 @@ $this->breadcrumbs=array(
     'type'=>'pills', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Employee', 'url'=>Yii::app()->createUrl('/m1/default'), 'active'=>true),
-        array('label'=>'Graphics', 'url'=>Yii::app()->createUrl('/m1/default/index2')),
-        array('label'=>'Report', 'url'=>'#'),
+        array('label'=>'Graphics', 'url'=>Yii::app()->createUrl('/m1/default'), 'active'=>true),
+        array('label'=>'Report', 'url'=>Yii::app()->createUrl('/m1/default/index2')),
+        array('label'=>'Other', 'url'=>'#'),
     ),
 )); ?>
 <hr/>
-		<?php
-		$this->widget('bootstrap.widgets.BootTabs', array(
-			'type'=>'tabs', // 'tabs' or 'pills'
-			'tabs'=>array(
-				array('id'=>'tab1','label'=>'Employee Out','content'=>$this->renderPartial("_employeeOut", array(), true),'active'=>true),
-				array('id'=>'tab2','label'=>'Employee In','content'=>$this->renderPartial("_employeeIn", array(), true)),
-				array('id'=>'tab3','label'=>'Employee Mutation','content'=>'#'),
-			),
-		));
 
-		?>
-
-
+<?php 
+	$this->Widget('ext.highcharts.HighchartsWidget', array(
+	   'options'=>array(
+		  'chart' => array('defaultSeriesType' => 'column'),
+		  'title' => array('text' => 'Employee Composition by Sex'),
+		  'xAxis' => array(
+			 'categories' => array('Male', 'Female')
+		  ),
+		  'yAxis' => array(
+			 'title' => array('text' => 'Total')
+		  ),
+		  'series' => array(
+			 array('name' => 'Sex', 'data' => gPerson::compSex())
+		  )
+	   )
+	));		
+?>
+<br/>		
+<?php 
+	$this->Widget('ext.highcharts.HighchartsWidget', array(
+	   'options'=>array(
+		  'chart' => array('defaultSeriesType' => 'column'),
+		  'title' => array('text' => 'Employee Composition by Age'),
+		  'xAxis' => array(
+			 'categories' => array('<26','26-30','31-35','36-40','41-45','46-50','>50')
+		  ),
+		  'yAxis' => array(
+			 'title' => array('text' => 'Total')
+		  ),
+		  'series' => array(
+			 array('name' => 'Age', 'data' => gPerson::compAge())
+		  )
+	   )
+	));		
+?>

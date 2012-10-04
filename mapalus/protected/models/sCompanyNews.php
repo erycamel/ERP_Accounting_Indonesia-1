@@ -91,7 +91,7 @@ class sCompanyNews extends BaseModel
 		$returnarray = array();
 
 		foreach ($models as $model) {
-			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('view','id'=>$model->id));
+			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('/sCompanyNews/view','id'=>$model->id));
 		}
 
 		return $returnarray;
@@ -109,7 +109,7 @@ class sCompanyNews extends BaseModel
 		$returnarray = array();
 
 		foreach ($models as $model) {
-			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('view','id'=>$model->id));
+			$returnarray[] = array('id' => $model->id, 'label' => substr($model->title,0,50).'...', 'icon'=>'list-alt', 'url' => array('/sCompanyNews/view','id'=>$model->id));
 		}
 
 		return $returnarray;

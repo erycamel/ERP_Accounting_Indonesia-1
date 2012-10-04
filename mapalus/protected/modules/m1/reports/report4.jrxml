@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9416666c-167f-4e83-a581-705d5bcf1d9d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[select a.employee_code, a.employee_name,
+(select org.name from g_person_career b inner join a_organization org ON b.department_id = org.id where b.parent_id = a.id AND b.status_id IN (1,2,3,4,5,6) order by b.start_date DESC limit 1) as department,
+(select c.start_date from g_person_career c where c.parent_id = a.id and c.status_id = 1 order by c.start_date limit 1) as join_date,
+(select b.job_title from g_person_career b where b.parent_id = a.id order by b.start_date DESC limit 1) as job_title,
+(select p.name from g_person_career d inner join g_param_level p ON d.level_id = p.id where d.parent_id = a.id order by d.start_date DESC limit 1) as level,
+(select pr.name from g_person_status s inner join s_parameter pr ON s.status_id = pr.code where s.parent_id = a.id AND pr.type ='AK' order by s.start_date DESC limit 1) as status
+
+
+from g_person a
+where (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (1,2,3,4,5,6) order by x.start_date DESC limit 1) = 1100
+order by department, level DESC]]>
+	</queryString>
+	<field name="employee_code" class="java.lang.String"/>
+	<field name="employee_name" class="java.lang.String"/>
+	<field name="department" class="java.lang.String"/>
+	<field name="join_date" class="java.sql.Date"/>
+	<field name="job_title" class="java.lang.String"/>
+	<field name="level" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<group name="Group1" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{department}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField>
+					<reportElement uuid="ba9ea75a-6e55-49f1-87c7-9e873e79e046" style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#333333"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement uuid="c423e457-703d-40d2-b2a4-fdd8a82ef9f3" mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c514ac41-3a2d-4b13-8fa1-7196d7dc4448" style="Title" x="0" y="5" width="513" height="33"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Employee Holding]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3d9db240-57af-4cf5-a72f-3039635d96c2" style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[per Department]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5171b231-03da-43df-8fbd-10bbc12a858b" style="Column header" x="0" y="19" width="47" height="15"/>
+				<textElement/>
+				<text><![CDATA[Code]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="446ff3dd-78c5-4ecd-b876-f89f25b11eab" positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="5129625a-a9b6-4d2d-815d-f96f14aa68fc" style="Column header" x="47" y="19" width="66" height="15"/>
+				<textElement/>
+				<text><![CDATA[Emp. Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79075c9f-ee47-48eb-b63b-2bce5d05fdf5" style="Column header" x="180" y="19" width="66" height="15"/>
+				<textElement/>
+				<text><![CDATA[Join Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd656943-33ca-491e-b812-7fb62e84437c" style="Column header" x="378" y="19" width="66" height="15"/>
+				<textElement/>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b60b62f-98eb-4dfb-8f73-bfbd6a147223" style="Column header" x="254" y="19" width="66" height="15"/>
+				<textElement/>
+				<text><![CDATA[Job Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f1da8d3a-ee90-4c7d-b25b-386f2f743892" style="Column header" x="466" y="19" width="58" height="15"/>
+				<textElement/>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement uuid="493a0806-b8a3-4554-b3b0-a401476578b3" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="e63c6da8-57db-43bd-b946-668cc04aa22b" x="0" y="2" width="47" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{employee_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15e5a81e-3251-4494-835d-474597c6f4e5" x="47" y="2" width="128" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{employee_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="f0895abc-f3d5-4570-827a-2106aefb4a4f" x="180" y="2" width="58" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{join_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8f617be0-22d8-4999-a013-e4a51a8cf6c2" x="254" y="2" width="117" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{job_title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ae2dcadc-a45b-4b22-a25c-9f7dd8b43180" x="378" y="2" width="82" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{level}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5aba4e24-aae1-4ee3-9198-5f59917fff78" x="466" y="2" width="74" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="7a1f61f4-35eb-45ce-a925-f540f0380a0d" style="Column header" x="433" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="15be2bd4-6b88-4aa3-b23e-320cf3a5d5e3" style="Column header" x="513" y="0" width="40" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="9544aeb1-870c-4784-ac6c-6c624aeb01e0" style="Column header" x="0" y="0" width="197" height="20"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

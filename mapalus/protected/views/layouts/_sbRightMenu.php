@@ -61,3 +61,16 @@
 		),
 )); ?>
 <br />
+
+<ul class="nav nav-list">
+	<li class="nav-header"><span class="h-icon-server">About Company</span>
+	</li>
+</ul>
+<?php $this->widget('bootstrap.widgets.BootMenu', array(
+		'type'=>'list',
+		'items'=>array(
+				array('label'=>'Photo Gallery', 'icon'=>'list-alt','url'=>Yii::app()->createUrl('/sGallery')),
+				array('label'=>'Company News', 'icon'=>'list-alt','url'=>Yii::app()->createUrl('/sCompanyNews')),
+		),
+)); ?>
+<br />

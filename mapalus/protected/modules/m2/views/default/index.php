@@ -23,7 +23,7 @@ $this->breadcrumbs=array(
 
 <div class="row-fluid">
 	<div class="span12">
-		<?php $this->beginWidget('bootstrap.widgets.BootHero', array(
+		<?php $this->beginWidget('bootstrap.widgets.BootHeroUnit', array(
 				//'heading'=>'Welcome!!',
 		)); ?>
 

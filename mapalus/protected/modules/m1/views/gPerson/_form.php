@@ -27,11 +27,11 @@ Yii::app()->clientScript->registerScript('datepicker4', "
         'legend'=>'Basic Info'
     )); ?>   
 		
-		<?php echo $form->textFieldRow($model,'employee_code',array('class'=>'span3','maxlength'=>100)); ?>
+		<?php echo $form->textFieldRow($model,'employee_code',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'employee_name',array('class'=>'span3','maxlength'=>100)); ?>
+		<?php echo $form->textFieldRow($model,'employee_name',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'birth_place',array('class'=>'span2')); ?>
+		<?php echo $form->textFieldRow($model,'birth_place',array()); ?>
 
 		<?php echo $form->textFieldRow($model,'birth_date'); ?>
 
@@ -46,11 +46,11 @@ Yii::app()->clientScript->registerScript('datepicker4', "
     )); ?>   
 		<?php echo $form->textFieldRow($model,'address1',array('class'=>'span4')); ?>
 
-		<?php echo $form->textFieldRow($model,'address2',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'address2',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'address3',array('class'=>'span2','maxlength'=>10)); ?>
+		<?php echo $form->textFieldRow($model,'address3',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'pos_code',array('class'=>'span1')); ?>
+		<?php echo $form->textFieldRow($model,'pos_code',array('class'=>'span2')); ?>
 
 	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
 	
@@ -59,45 +59,45 @@ Yii::app()->clientScript->registerScript('datepicker4', "
 	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
         'legend'=>'Identity'
     )); ?>   
-		<?php echo $form->textFieldRow($model,'identity_number',array('class'=>'span2')); ?>
+		<?php echo $form->textFieldRow($model,'identity_number',array()); ?>
 
 		<?php echo $form->textFieldRow($model,'identity_valid'); ?>
 
-		<?php echo $form->textFieldRow($model,'identity_address1',array('class'=>'span3','maxlength'=>255)); ?>
+		<?php echo $form->textFieldRow($model,'identity_address1',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'identity_address2',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'identity_address2',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'identity_address3',array('class'=>'span2','maxlength'=>10)); ?>
+		<?php echo $form->textFieldRow($model,'identity_address3',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'identity_pos_code',array('class'=>'span1')); ?>
+		<?php echo $form->textFieldRow($model,'identity_pos_code',array('class'=>'span2')); ?>
 
 	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
 
 	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
         'legend'=>'Contact'
     )); ?>   
-		<?php echo $form->textFieldRow($model,'email',array('class'=>'span3','maxlength'=>100)); ?>
+		<?php echo $form->textFieldRow($model,'email',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'email2',array('class'=>'span3','maxlength'=>100)); ?>
+		<?php echo $form->textFieldRow($model,'email2',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'blood_id',array('class'=>'span2','maxlength'=>10)); ?>
+		<?php echo $form->textFieldRow($model,'blood_id',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'home_phone',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'home_phone',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'handphone',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'handphone',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'handphone2',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'handphone2',array()); ?>
 		
 	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
 
 	<?php $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
         'legend'=>'Bank'
     )); ?>   
-		<?php echo $form->textFieldRow($model,'account_number',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'account_number',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'account_name',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'account_name',array()); ?>
 
-		<?php echo $form->textFieldRow($model,'bank_name',array('class'=>'span4','maxlength'=>50)); ?>
+		<?php echo $form->textFieldRow($model,'bank_name',array()); ?>
 		
 	<?php $this->endWidget(); ?><!-- collabsible fieldset -->
 

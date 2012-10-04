@@ -3,13 +3,15 @@
 /* @var $data SCompanyNews */
 ?>
 
+<div class="row-fluid">
 <div class="span12">
-	<h3>
+	<h4>
 	<?php echo CHtml::link(CHtml::encode($data->title),Yii::app()->createUrl('/sCompanyNews/view',array('id'=>$data->id))); ?>
-	</h3>
-	
-	<div class="row">
-	<div class="span2">
+	</h4>
+</div>	
+</div>	
+	<div class="row-fluid">
+	<div class="span1">
 		<?php
 			//$this->widget('ext.espaceholder.ESpaceHolder', array(
 			//		'size' => '100x100', // you can also do 300x250
@@ -19,7 +21,7 @@
 		?>
 		<?php	echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/FA-logo-APL-1_ONLY.jpg", CHtml::encode($data->id), array("width"=>"100%")); ?>
 	</div>
-	<div class="span9">
+	<div class="span10">
 		<?php echo date('F j, Y',$data->created_date); ?>
 		<br />
 <?php
@@ -35,5 +37,3 @@
 
 	</div>
 	</div>
-
-</div>

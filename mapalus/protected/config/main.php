@@ -22,7 +22,7 @@ return array(
 				'ext.quickdlgs.*',
 				'ext.fpdf.fpdf_addons.*',
 				'ext.bootstrap.widgets.*',
-				'ext.JasPHP.*',
+				'ext.jasphp.*',
 				//'application.modules.rights.*',
 				'application.modules.rights.components.*',
 				'application.modules.translate.TranslateModule'
@@ -103,6 +103,7 @@ return array(
 				),
 				'jasPHP' => array(
 						'class' => 'JasPHP',
+						//'orientation'=>'portrait',
 				),
 
 				'cache'=>array(
@@ -139,10 +140,10 @@ return array(
 						'allowAutoLogin'=>true,
 				),
 				'db'=>array(
-						'connectionString' => 'mysql:host=localhost;port=3308;dbname=erp_apl',
+						'connectionString' => 'mysql:host=localhost;port=3308;dbname=erp_indonesia',
 						//'connectionString'=>'pgsql:host=localhost;port=5432;dbname=erp_apl',
 						'emulatePrepare' => true,
-						'username' => 'erp_apl',
+						'username' => 'root',
 						'password' => '1234qwe',
 						'charset' => 'utf8',
 						'tablePrefix' => '',

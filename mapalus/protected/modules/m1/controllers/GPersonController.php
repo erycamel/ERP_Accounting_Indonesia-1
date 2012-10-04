@@ -719,5 +719,31 @@ class GPersonController extends Controller
  
         echo $return;// it's array
 	}	
+	
+	public function actionReport1() {
+		//Yii::app()->jasPHP->create(Yii::app()->getModule('m1')->basePath . '/reports/', 'report4.jrxml',array(),array());
+		//Yii::app()->jasPHP->create(Yii::app()->getModule('m1')->basePath . '/reports/', 'report1.jrxml',array('title'=>'Test'),array());
+		
+		//include_once('class/tcpdf/tcpdf.php');
+		//include_once("class/PHPJasperXML.inc.php");
+		Yii::import('ext.jasphp_peter.*');
+		Yii::import('ext.jasphp_peter.tcpdf.*');
+
+
+		$xml =  simplexml_load_file(Yii::app()->getModule('m1')->basePath . '/reports/'.'report4.jrxml');
+
+
+		$PHPJasperXML = new PHPJasperXML();
+		//$PHPJasperXML->debugsql=true;
+		//$PHPJasperXML->arrayParameter=array("parameter1"=>1);
+		$PHPJasperXML->xml_dismantle($xml);
+
+		$PHPJasperXML->transferDBtoArray('localhost','root','1234qwe','erp_apl');
+		$PHPJasperXML->outpage("I");    //page output method I:standard output  D:Download file
+
+
+		
+		
+	}
 
 }

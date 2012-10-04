@@ -356,30 +356,87 @@ class gPerson extends BaseModel
 
 	public function compSex(){
 		$_item=array();
-		$count1=gPerson::model()->count('sex_id =1');
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('company');
+		//$criteria->compare('status.status_id',8);
+
+		if (Yii::app()->user->name != "admin") {
+			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
+		} else {
+			$criteria->addInCondition('company.company_id',array(1100));
+		}
+
+		$criteria1=new CDbCriteria;
+		$criteria1->condition='sex_id =1';
+		$criteria1->mergeWith($criteria);
+		$count1=gPerson::model()->count($criteria1);
 		$_item[]=(int)$count1;
-		$count2=gPerson::model()->count('sex_id =2');
+
+		$criteria2=new CDbCriteria;
+		$criteria2->condition='sex_id =2';
+		$criteria2->mergeWith($criteria);
+		$count2=gPerson::model()->count($criteria2);
 		$_item[]=(int)$count2;
-		
+	
 		return $_item;
 	
 	}
 	
 	public function compAge(){
 		$_item=array();
-		$count1=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) <=26 ');
+
+		$criteria=new CDbCriteria;
+
+		$criteria->with=array('company');
+		//$criteria->compare('status.status_id',8);
+
+		if (Yii::app()->user->name != "admin") {
+			$criteria->addInCondition('company.company_id',sUser::model()->getGroupArray());
+		} else {
+			$criteria->addInCondition('company.company_id',array(1100));
+		}
+
+		$criteria1=new CDbCriteria;
+		$criteria1->condition='(YEAR(NOW())- YEAR(birth_date)) <=26 ';
+		$criteria1->mergeWith($criteria);
+		$count1=gPerson::model()->count($criteria1);
 		$_item[]=(int)$count1;
-		$count2=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 26 AND 30');
+		
+		$criteria2=new CDbCriteria;
+		$criteria2->condition='(YEAR(NOW())- YEAR(birth_date)) BETWEEN 26 AND 30';
+		$criteria2->mergeWith($criteria);
+		$count2=gPerson::model()->count($criteria2);
 		$_item[]=(int)$count2;
-		$count3=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 31 AND 35');
+
+		$criteria3=new CDbCriteria;
+		$criteria3->condition='(YEAR(NOW())- YEAR(birth_date)) BETWEEN 31 AND 35';
+		$criteria3->mergeWith($criteria);
+		$count3=gPerson::model()->count($criteria3);
 		$_item[]=(int)$count3;
-		$count4=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 36 AND 40');
+
+		$criteria4=new CDbCriteria;
+		$criteria4->condition='(YEAR(NOW())- YEAR(birth_date)) BETWEEN 36 AND 40';
+		$criteria4->mergeWith($criteria);
+		$count4=gPerson::model()->count($criteria4);
 		$_item[]=(int)$count4;
-		$count5=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 41 AND 45');
+
+		$criteria5=new CDbCriteria;
+		$criteria5->condition='(YEAR(NOW())- YEAR(birth_date)) BETWEEN 41 AND 45';
+		$criteria5->mergeWith($criteria);
+		$count5=gPerson::model()->count($criteria5);
 		$_item[]=(int)$count5;
-		$count6=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) BETWEEN 46 AND 50');
+
+		$criteria6=new CDbCriteria;
+		$criteria6->condition='(YEAR(NOW())- YEAR(birth_date)) BETWEEN 46 AND 50';
+		$criteria6->mergeWith($criteria);
+		$count6=gPerson::model()->count($criteria6);
 		$_item[]=(int)$count6;
-		$count7=gPerson::model()->count('(YEAR(NOW())- YEAR(birth_date)) >50');
+
+		$criteria7=new CDbCriteria;
+		$criteria7->condition='(YEAR(NOW())- YEAR(birth_date)) >50';
+		$criteria7->mergeWith($criteria);
+		$count7=gPerson::model()->count($criteria7);
 		$_item[]=(int)$count7;
 		
 		return $_item;
@@ -446,6 +503,13 @@ class gPerson extends BaseModel
 
 	}
 	
+	public function companyly($limit=5) {
+		$this->getDbCriteria()->mergeWith(array(
+			'limit'=>$limit,
+		));
+		return $this;
+	}
+
 	public function mCompany() {
 		$criteria=new CDbCriteria;
 		$criteria->compare('parent_id',$this->id);
